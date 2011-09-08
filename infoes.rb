@@ -33,7 +33,7 @@ Shoes.app :title => "infoes" do
         para rss_item.title, " ", link("Go to Post") { Launchy.open rss_item.link }
       end
       tweets.each do |tweet|
-        para tweet.text
+        para tweet.user.name, ": ", tweet.text
       end
     end
   end
