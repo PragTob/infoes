@@ -24,8 +24,10 @@ Shoes.app :title => "infoes" do
     # menu items
     stack width: MENU_WIDTH do
       para link("Twitter Settings") { show_twitter_settings }
+      para link("RSS feed Settings") { show_rss_settings }
     end
 
+    # main content
     rss = load_rss "http://pragtob.wordpress.com/feed/"
     tweets = TwitterConnection.get_tweets 10
     @content_box = stack width: -MENU_WIDTH do
@@ -53,6 +55,22 @@ def show_twitter_settings
         close
       end
       para link("Sign up at Twitter", click: "https://twitter.com/signup")
+    end
+  end
+end
+
+def show_rss_settings
+  Shoes.app title: "RSS Feed Settings", width: 500, height => 400 do
+    background gradient(gold, darkorange)
+    stack do
+      flow do
+        para "RSS link: "
+        @editline = edit_line
+        button "Add" do
+          alert "Implement me!"
+        end
+        button "Remove"
+      end
     end
   end
 end
