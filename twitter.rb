@@ -45,5 +45,11 @@ class TwitterConnection
       config.oauth_token_secret = @credentials['oauth_secret']
     end
   end
+
+  def self.get_tweets number
+    load_credentials if @credentials.nil?
+    Twitter.home_timeline[0..number]
+  end
+
 end
 

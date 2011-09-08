@@ -27,9 +27,13 @@ Shoes.app :title => "infoes" do
     end
 
     rss = load_rss "http://pragtob.wordpress.com/feed/"
+    tweets = TwitterConnection.get_tweets 10
     @content_box = stack width: -MENU_WIDTH do
       rss.items.each do |rss_item|
         para rss_item.title, " ", link("Go to Post") { Launchy.open rss_item.link }
+      end
+      tweets.each do |tweet|
+        para tweet.text
       end
     end
   end
