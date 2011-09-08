@@ -36,17 +36,20 @@ Shoes.app :title => "infoes" do
 end
 
 def show_twitter_settings
-  Shoes.app :title => "Twitter Settings" do
+  Shoes.app :title => "Twitter Settings", :height => 300, :width => 300 do
     background gradient(deepskyblue, royalblue)
-    button "Connect infoes with twitter" do
-      authorization_url = get_request_token
-      Launchy.open authorization_url
-      pincode = ask "A page should have been opened in your web browser. Please authorize this app and then enter the
-      pincode displayed to you here."
-      complete_authentication pincode
-      alert "Succesfully registered with Twitter!"
+    stack do
+      button "Connect infoes with twitter" do
+        authorization_url = TwitterConnection.get_request_token
+        Launchy.open authorization_url
+        pincode = ask "A page should have been opened in your web browser. Please authorize this app and then enter the
+        pincode displayed to you here."
+        TwitterConnection.complete_authentication pincode
+        alert "Succesfully registered with Twitter!"
+        close
+      end
+      para link("Sign up at Twitter", click: "https://twitter.com/signup")
     end
-    para link("Sign up at Twitter", click: "https://twitter.com/signup")
   end
 end
 

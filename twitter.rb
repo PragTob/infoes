@@ -13,7 +13,7 @@ class TwitterConnection
   # gets the request token and returns the url the user has to visit in order to authorize the app
   def self.get_request_token
     load_credentials_file
-    @consumer = OAuth::Consumer.new(credentials['consumer_key'], credentials['consumer_secret'], :site => TWITTER_API_URL)
+    @consumer = OAuth::Consumer.new(@credentials['consumer_key'], @credentials['consumer_secret'], :site => TWITTER_API_URL)
     @request_token = @consumer.get_request_token
     @request_token.authorize_url
   end
@@ -25,7 +25,7 @@ class TwitterConnection
     # save the access token to our yaml file
     @credentials['oauth_token'] = @access_token.token
     @credentials['oauth_secret'] = @access_token.secret
-    File.open CREDENTIALS_FILE do |file|
+    File.open CREDENTIALS_FILE, 'w' do |file|
       YAML.dump(@credentials, file)
     end
   end
@@ -39,10 +39,10 @@ class TwitterConnection
   def self.load_credentials
     load_credentials_file
     Twitter.configure do |config|
-      config.consumer_key = credentials['consumer_key']
-      config.consumer_secret = credentials['consimer_secret']
-      config.oauth_token = YOUR_OAUTH_TOKEN
-      config.oauth_token_secret = YOUR_OAUTH_TOKEN_SECRET
+      config.consumer_key = @credentials['consumer_key']
+      config.consumer_secret = @credentials['consumer_secret']
+      config.oauth_token = @credentials['oauth_token']
+      config.oauth_token_secret = @credentials['oauth_secret']
     end
   end
 end
