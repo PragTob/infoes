@@ -7,6 +7,7 @@ Shoes.setup do
   gem 'launchy'
 end
 
+# open links in default browser (see shoes issue #138)
 require 'launchy'
 
 MENU_WIDTH = 120
@@ -28,7 +29,7 @@ Shoes.app :title => "infoes" do
     rss = load_rss "http://pragtob.wordpress.com/feed/"
     @content_box = stack width: -MENU_WIDTH do
       rss.items.each do |rss_item|
-        para rss_item.title, " ", link("Go to Post", click: rss_item.link)
+        para rss_item.title, " ", link("Go to Post") { Launchy.open rss_item.link }
       end
     end
   end
@@ -36,7 +37,7 @@ end
 
 def show_twitter_settings
   Shoes.app :title => "Twitter Settings" do
-    background gradient(deepskyblue, dodgerblue)
+    background gradient(deepskyblue, royalblue)
     button "Connect infoes with twitter" do
       authorization_url = get_request_token
       Launchy.open authorization_url
