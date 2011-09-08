@@ -4,9 +4,12 @@
 Shoes.setup do
   gem 'twitter'
   gem 'oauth'
+  gem 'launchy'
 end
 
-MENU_WIDTH = 100
+require 'launchy'
+
+MENU_WIDTH = 120
 
 # requires are strange but require_relative throws "Can't infer basepath errors"
 require './rss'
@@ -19,9 +22,7 @@ Shoes.app :title => "infoes" do
   flow do
     # menu items
     stack width: MENU_WIDTH do
-      button "Twitter Settings" do
-        show_twitter_settings
-      end
+      para link("Twitter Settings") { show_twitter_settings }
     end
 
     rss = load_rss "http://pragtob.wordpress.com/feed/"
@@ -37,9 +38,14 @@ def show_twitter_settings
   Shoes.app :title => "Twitter Settings" do
     background gradient(deepskyblue, dodgerblue)
     button "Connect infoes with twitter" do
-      alert "Implement me!!!!"
+      authorization_url = get_request_token
+      Launchy.open authorization_url
+      pincode = ask "A page should have been opened in your web browser. Please authorize this app and then enter the
+      pincode displayed to you here."
+      complete_authentication pincode
+      alert "Succesfully registered with Twitter!"
     end
-    para link("Signe up at Twitter", click: "https://twitter.com/signup")
+    para link("Sign up at Twitter", click: "https://twitter.com/signup")
   end
 end
 
