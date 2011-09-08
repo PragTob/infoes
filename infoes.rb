@@ -54,7 +54,7 @@ def show_twitter_settings
         alert "Succesfully registered with Twitter!"
         close
       end
-      para link("Sign up at Twitter", click: "https://twitter.com/signup")
+      para link("Sign up at Twitter") { Launchy.open "https://twitter.com/signup" }
     end
   end
 end
