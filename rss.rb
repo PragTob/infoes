@@ -22,7 +22,7 @@ class RSSFeeds
   end
 
   def self.remove url
-    @urls.remove url
+    @urls.delete url
     change_preferences
   end
 
