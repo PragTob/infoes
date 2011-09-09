@@ -5,7 +5,7 @@ require 'oauth'
 require 'yaml'
 
 TWITTER_API_URL = "https://api.twitter.com"
-CREDENTIALS_FILE = 'credentials.yml'
+CREDENTIALS_FILE = 'preferences/twitter_credentials.yml'
 
 # Our connection Twitter
 # All methods are class side since this is only for one user, no need for an instance

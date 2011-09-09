@@ -28,12 +28,16 @@ Shoes.app :title => "infoes" do
     end
 
     # main content
-    rss = load_rss "http://pragtob.wordpress.com/feed/"
-    tweets = TwitterConnection.get_tweets 10
     @content_box = stack width: -MENU_WIDTH do
-      rss.items.each do |rss_item|
-        para rss_item.title, " ", link("Go to Post") { Launchy.open rss_item.link }
+
+      rss = RSSFeeds.load
+      rss.each do |feed|
+        feed.items.each do |rss_item|
+          para rss_item.title, " ", link("Go to Post") { Launchy.open rss_item.link }
+        end
       end
+
+      tweets = TwitterConnection.get_tweets 10
       tweets.each do |tweet|
         flow do
           stack width: 60, height: 60 do
@@ -70,13 +74,17 @@ def show_rss_settings
   Shoes.app title: "RSS Feed Settings", width: 500, height => 400 do
     background gradient(gold, darkorange)
     stack do
-      flow do
-        para "RSS link: "
-        @editline = edit_line
-        button "Add" do
-          alert "Implement me!"
+      RSSFeeds.urls.each do |url|
+        flow do
+          para "RSS URL: ", url
+          button "Remove" do
+            RSSFeeds.remove url
+          end
         end
-        button "Remove"
+      end
+      @new_url_edit = edit_line
+      button "Add" do
+        RSSFeeds.add @new_url_edit.text
       end
     end
   end
