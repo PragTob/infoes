@@ -16,6 +16,8 @@ TWEET_PIC_WIDTH = 50
 # will become a preference
 TWEETS_TO_LOAD = 10
 
+TWITTER_SIGNUP = "https://twitter.com/signup"
+
 # requires are strange but require_relative throws "Can't infer basepath errors"
 require './rss'
 require './twitter'
@@ -41,7 +43,8 @@ Shoes.app :title => "infoes" do
       rss = RSSFeeds.load
       rss.each do |feed|
         feed.items.each do |rss_item|
-          para rss_item.title, " ", link("Go to Post") { Launchy.open rss_item.link }
+          para rss_item.title, " "
+          para link("Go to Post") { Launchy.open rss_item.link }
         end
       end
 
@@ -49,16 +52,19 @@ Shoes.app :title => "infoes" do
       tweets = TwitterConnection.get_tweets TWEETS_TO_LOAD
       tweets.each do |tweet|
         flow do
-          # seperate stack dor the images so they are displayed left to the tweet
+          # seperate stack for the images so they are displayed left
           stack width: TWEET_PIC_WIDTH, height: 60 do
             image tweet.user.profile_image_url
           end
           stack width: -TWEET_PIC_WIDTH do
-            # seems to be one of those cases where I need the feature that {} as a block binds closer than do..end
-            para tweet.user.name, ": ", tweet.text, " ", link("Go to Tweet") {
+            para tweet.user.name, ": ", tweet.text, " "
+            para link("Go to Tweet") do
               # when I got the adapter class this will simply be tweet.url
-              Launchy.open TwitterConnection::TWITTER_URL + tweet.user.screen_name + "/status/" + tweet.id_str
-            }
+              Launchy.open TwitterConnection::TWITTER_URL
+                            + tweet.user.screen_name
+                            + "/status/"
+                            + tweet.id_str
+            end
           end
         end
       end
@@ -76,13 +82,14 @@ def show_twitter_settings
         button "Connect infoes with twitter" do
           authorization_url = TwitterConnection.get_request_token
           Launchy.open authorization_url
-          pincode = ask "A page should have been opened in your web browser. Please authorize this app and then enter the
-          pincode displayed to you here."
+          pincode = ask "A page should have been opened in your web browser.
+                        Please authorize this app and then enter the
+                        pincode displayed to you here."
           TwitterConnection.complete_authentication pincode
           alert "Succesfully registered with Twitter!"
           close
         end
-        para link("Sign up at Twitter") { Launchy.open "https://twitter.com/signup" }
+        para link("Sign up at Twitter") { Launchy.open TWITTER_SIGNUP }
       else
         para "Your Twitter account is already connected to infoes!"
       end
