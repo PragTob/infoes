@@ -50,8 +50,19 @@ class TwitterConnection
   end
 
   def self.get_tweets number
-    load_credentials if @credentials.nil?
-    Twitter.home_timeline[0...number]
+    load_credentials
+    if already_authenticated?
+      Twitter.home_timeline[0...number]
+    else
+      # if we're not authenticated, we can't show tweets
+      []
+    end
+  end
+
+  # Determine whether the user is already authenticated with infoes
+  # therefore check for the presence of the user specific token and secret
+  def self.already_authenticated?
+    @credentials['oauth_token'] && @credentials['oauth_secret']
   end
 
 end
