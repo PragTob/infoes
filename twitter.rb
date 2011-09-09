@@ -4,12 +4,15 @@ require 'twitter'
 require 'oauth'
 require 'yaml'
 
-TWITTER_API_URL = "https://api.twitter.com"
-CREDENTIALS_FILE = 'preferences/twitter_credentials.yml'
 
 # Our connection Twitter
 # All methods are class side since this is only for one user, no need for an instance
 class TwitterConnection
+
+  TWITTER_URL = "https://twitter.com/#!/"
+  TWITTER_API_URL = "https://api.twitter.com"
+  CREDENTIALS_FILE = 'preferences/twitter_credentials.yml'
+
   # gets the request token and returns the url the user has to visit in order to authorize the app
   def self.get_request_token
     load_credentials_file

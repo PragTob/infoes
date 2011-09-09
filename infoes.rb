@@ -44,7 +44,11 @@ Shoes.app :title => "infoes" do
             image tweet.user.profile_image_url
           end
           stack width: -60 do
-            para tweet.user.name, ": ", tweet.text
+            # seems to be one of those cases where I need the feature that {} as a block binds closer than do..end
+            para tweet.user.name, ": ", tweet.text, " ", link("Go to Tweet") {
+              # when I got the adapter class this will simply be tweet.url
+              Launchy.open TwitterConnection::TWITTER_URL + tweet.user.screen_name + "/status/" + tweet.id_str
+            }
           end
         end
       end
