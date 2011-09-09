@@ -43,8 +43,8 @@ Shoes.app :title => "infoes" do
       rss = RSSFeeds.load
       rss.each do |feed|
         feed.items.each do |rss_item|
-          para rss_item.title, " "
-          para link("Go to Post") { Launchy.open rss_item.link }
+          para rss_item.title, " ",
+              link("Go to Post") { Launchy.open rss_item.link }
         end
       end
 
@@ -57,14 +57,15 @@ Shoes.app :title => "infoes" do
             image tweet.user.profile_image_url
           end
           stack width: -TWEET_PIC_WIDTH do
-            para tweet.user.name, ": ", tweet.text, " "
-            para link("Go to Tweet") do
-              # when I got the adapter class this will simply be tweet.url
-              Launchy.open TwitterConnection::TWITTER_URL
-                            + tweet.user.screen_name
-                            + "/status/"
-                            + tweet.id_str
-            end
+            para tweet.user.name, ": ", tweet.text, " ",
+            # one of those cases where {..} vs do..end actually matters
+                 link("Go to Tweet") {
+                   # when I got the adapter class this will simply be tweet.url
+                   Launchy.open(TwitterConnection::TWITTER_URL +
+                                tweet.user.screen_name +
+                                "/status/" +
+                                tweet.id_str)
+            }
           end
         end
       end
@@ -82,9 +83,12 @@ def show_twitter_settings
         button "Connect infoes with twitter" do
           authorization_url = TwitterConnection.get_request_token
           Launchy.open authorization_url
-          pincode = ask "A page should have been opened in your web browser.
+          pincode = ask <<-eos
+                        A page should have been opened in your web browser.
                         Please authorize this app and then enter the
-                        pincode displayed to you here."
+                        pincode displayed to you here.
+                      eos
+
           TwitterConnection.complete_authentication pincode
           alert "Succesfully registered with Twitter!"
           close
