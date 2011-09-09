@@ -68,19 +68,24 @@ end
 
 # show the seperate Twitter settings window
 def show_twitter_settings
-  Shoes.app :title => "Twitter Settings", :height => 300, :width => 300 do
+  Shoes.app :title => "Twitter Settings", :height => 150, :width => 300 do
     background gradient(deepskyblue, royalblue)
+
     stack do
-      button "Connect infoes with twitter" do
-        authorization_url = TwitterConnection.get_request_token
-        Launchy.open authorization_url
-        pincode = ask "A page should have been opened in your web browser. Please authorize this app and then enter the
-        pincode displayed to you here."
-        TwitterConnection.complete_authentication pincode
-        alert "Succesfully registered with Twitter!"
-        close
+      unless TwitterConnection.already_authenticated?
+        button "Connect infoes with twitter" do
+          authorization_url = TwitterConnection.get_request_token
+          Launchy.open authorization_url
+          pincode = ask "A page should have been opened in your web browser. Please authorize this app and then enter the
+          pincode displayed to you here."
+          TwitterConnection.complete_authentication pincode
+          alert "Succesfully registered with Twitter!"
+          close
+        end
+        para link("Sign up at Twitter") { Launchy.open "https://twitter.com/signup" }
+      else
+        para "Your Twitter account is already connected to infoes!"
       end
-      para link("Sign up at Twitter") { Launchy.open "https://twitter.com/signup" }
       button("Done") { close }
     end
   end
@@ -88,7 +93,7 @@ end
 
 # Show the settings window for RSS
 def show_rss_settings
-  Shoes.app title: "RSS Feed Settings", width: 500, height => 400 do
+  Shoes.app title: "RSS Feed Settings", width: 500, height: 300 do
     background gradient(gold, darkorange)
     stack do
       RSSFeeds.urls.each do |url|
