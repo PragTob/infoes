@@ -7,3 +7,7 @@ For now just support for RSS-Feeds and Twitter is planned (maybe Facebook) - but
 # Attention! Under development
 infoes is totally under development and not even nearly ready to being used and I would strongly discourage from using it just now. However come and check back later!
 
+# Anyway: How to run this thing?
+Well you need shoes.. no not the ones on your feet. You need [shoes] (http://shoesrb.com/), you can go ahead and [download] (http://shoesrb.com/downloads "Download shoes") it, however is done using shoes right from the [github repo] (https://github.com/shoes/shoes). Than simply open infoes.rb with shoes.
+A packaged version, which you can just run, will be available once this is in a releasable state.
+
