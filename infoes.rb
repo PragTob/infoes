@@ -21,7 +21,7 @@ require './rss'
 require './twitter'
 
 # main infoes app
-@main_app = Shoes.app :title => "infoes" do
+Shoes.app :title => "infoes" do
   background gradient(lime, limegreen)
   stroke black
   title "This is infoes!", :align => "center"
