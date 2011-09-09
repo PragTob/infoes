@@ -26,7 +26,7 @@ class TwitterConnection
   end
 
   # complete the authentication with the pincode
-  def self.complete_authentication pincode
+  def self.complete_authentication(pincode)
     @access_token = @request_token.get_access_token :pin => pincode
 
     # save the access token to our yaml file
@@ -53,7 +53,7 @@ class TwitterConnection
     end
   end
 
-  def self.get_tweets number
+  def self.get_tweets(number)
     load_credentials
     if already_authenticated?
       Twitter.home_timeline[0...number]

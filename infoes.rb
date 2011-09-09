@@ -111,16 +111,12 @@ def show_rss_settings
         title "You RSS Feeds"
         flow do
           para url, " "
-          button "Remove" do
-            RSSFeeds.remove url
-          end
+          button("Remove") { RSSFeeds.remove url }
         end
       end
       flow do
         @new_url_edit = edit_line
-        button "Add" do
-          RSSFeeds.add @new_url_edit.text
-        end
+        button("Add") { RSSFeeds.add @new_url_edit.text }
       end
       button("Done") { close }
     end

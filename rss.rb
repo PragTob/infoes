@@ -16,12 +16,12 @@ class RSSFeeds
     rss_feeds
   end
 
-  def self.add url
+  def self.add(url)
     urls << url
     change_preferences
   end
 
-  def self.remove url
+  def self.remove(url)
     urls.delete url
     change_preferences
   end
