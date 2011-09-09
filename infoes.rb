@@ -35,7 +35,14 @@ Shoes.app :title => "infoes" do
         para rss_item.title, " ", link("Go to Post") { Launchy.open rss_item.link }
       end
       tweets.each do |tweet|
-        para tweet.user.name, ": ", tweet.text
+        flow do
+          stack width: 60, height: 60 do
+            image tweet.user.profile_image_url
+          end
+          stack width: -60 do
+            para tweet.user.name, ": ", tweet.text
+          end
+        end
       end
     end
   end
