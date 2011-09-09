@@ -21,7 +21,7 @@ class TwitterConnection
     @request_token.authorize_url
   end
 
-  # complete the authentication with the pincode (as retrieved by the GUI)
+  # complete the authentication with the pincode (as entered by the user in the GUI)
   def self.complete_authentication pincode
     @access_token = @request_token.get_access_token :pin => pincode
 
@@ -51,7 +51,7 @@ class TwitterConnection
 
   def self.get_tweets number
     load_credentials if @credentials.nil?
-    Twitter.home_timeline[0..number]
+    Twitter.home_timeline[0...number]
   end
 
 end

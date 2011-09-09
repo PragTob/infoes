@@ -17,33 +17,32 @@ class RSSFeeds
   end
 
   def self.add url
-    @urls << url
+    urls << url
     change_preferences
   end
 
   def self.remove url
-    @urls.delete url
+    urls.delete url
     change_preferences
   end
 
+  # the feed urls
   def self.urls
-    if @urls.nil?
-      if File.exist? RSS_PREFERENCES
-        load_preferences
-      else
-        @urls = []
-      end
-    end
-    @urls
+    @urls || load_preferences
   end
 
   private
+
+  # load the preferences file (if it exists), otherwise we don't have urls
   def self.load_preferences
-    File.open(RSS_PREFERENCES) do |file|
-      @urls = YAML::load(file)
+    if File.exist? RSS_PREFERENCES
+      File.open(RSS_PREFERENCES) { |file| @urls = YAML::load(file) }
+    else
+      @urls = []
     end
   end
 
+  # dump the new preferences into our preferences file (for now just urls)
   def self.change_preferences
     File.open RSS_PREFERENCES, 'w' do |file|
       YAML.dump(@urls, file)
