@@ -1,4 +1,5 @@
 # infoes is a reader that aims to combine multiple services
+# TODO new class for every window, figure out how to this and then do it!
 
 # yeah we actually need Twitter and a few other gems
 Shoes.setup do
@@ -29,45 +30,53 @@ Shoes.app :title => "infoes" do
   title "This is infoes!", :align => "center"
 
   flow do
+    menu
+    content
+  end
+end
 
-    # menu items
-    stack width: MENU_WIDTH do
-      para link("Twitter Settings") { show_twitter_settings }
-      para link("RSS feed Settings") { show_rss_settings }
+def menu
+  stack width: MENU_WIDTH do
+    para link("Twitter Settings") { show_twitter_settings }
+    para link("RSS feed Settings") { show_rss_settings }
+  end
+end
+
+def content
+  # main content of the window (tweets and rss feeds)
+  stack width: -MENU_WIDTH do
+    rss_entries
+    tweets
+  end
+end
+
+def rss_entries
+  rss = RSSFeeds.load
+  rss.each do |feed|
+    feed.items.each do |rss_item|
+      para rss_item.title, " ",
+          link("Go to Post") { Launchy.open rss_item.link }
     end
+  end
+end
 
-    # main content of the window (tweets and rss feeds)
-    @content_box = stack width: -MENU_WIDTH do
-
-      # RSS Part
-      rss = RSSFeeds.load
-      rss.each do |feed|
-        feed.items.each do |rss_item|
-          para rss_item.title, " ",
-              link("Go to Post") { Launchy.open rss_item.link }
-        end
+def tweets
+  tweets = TwitterConnection.get_tweets TWEETS_TO_LOAD
+  tweets.each do |tweet|
+    flow do
+      # seperate stack for the images so they are displayed left
+      stack width: TWEET_PIC_WIDTH, height: 60 do
+        image tweet.user.profile_image_url
       end
-
-      # Twitter part
-      tweets = TwitterConnection.get_tweets TWEETS_TO_LOAD
-      tweets.each do |tweet|
-        flow do
-          # seperate stack for the images so they are displayed left
-          stack width: TWEET_PIC_WIDTH, height: 60 do
-            image tweet.user.profile_image_url
-          end
-          stack width: -TWEET_PIC_WIDTH do
-            para tweet.user.name, ": ", tweet.text, " ",
-            # one of those cases where {..} vs do..end actually matters
-                 link("Go to Tweet") {
-                   # when I got the adapter class this will simply be tweet.url
-                   Launchy.open(TwitterConnection::TWITTER_URL +
-                                tweet.user.screen_name +
-                                "/status/" +
-                                tweet.id_str)
-            }
-          end
-        end
+      stack width: -TWEET_PIC_WIDTH do
+        # one of those cases where {..} vs do..end actually matters
+        para tweet.user.name, ": ", tweet.text, " ", link("Go to Tweet") {
+          # when I got the adapter class this will simply be tweet.url
+          Launchy.open(TwitterConnection::TWITTER_URL +
+                      tweet.user.screen_name +
+                      "/status/" +
+                      tweet.id_str)
+        }
       end
     end
   end
@@ -80,19 +89,7 @@ def show_twitter_settings
 
     stack do
       unless TwitterConnection.already_authenticated?
-        button "Connect infoes with twitter" do
-          authorization_url = TwitterConnection.get_request_token
-          Launchy.open authorization_url
-          pincode = ask <<-eos
-                        A page should have been opened in your web browser.
-                        Please authorize this app and then enter the
-                        pincode displayed to you here.
-                      eos
-
-          TwitterConnection.complete_authentication pincode
-          alert "Succesfully registered with Twitter!"
-          close
-        end
+        connect_to_twitter_button
         para link("Sign up at Twitter") { Launchy.open TWITTER_SIGNUP }
       else
         para "Your Twitter account is already connected to infoes!"
@@ -102,23 +99,65 @@ def show_twitter_settings
   end
 end
 
+# create the button that starts the connect to Twitter process
+def connect_to_twitter_button
+  button "Connect infoes with twitter" do
+    authorization_url = TwitterConnection.get_request_token
+    Launchy.open authorization_url
+    pincode = ask <<-eos
+                  A page should have been opened in your web browser.
+                  Please authorize this app and then enter the
+                  pincode displayed to you here.
+                eos
+
+    TwitterConnection.complete_authentication pincode
+    alert "Succesfully registered with Twitter!"
+    close
+  end
+end
+
 # Show the settings window for RSS
 def show_rss_settings
   Shoes.app title: "RSS Feed Settings", width: 500, height: 300 do
     background gradient(gold, darkorange)
-    stack do
+    title "You RSS Feeds"
+
+    @main_stack = stack do
       RSSFeeds.urls.each do |url|
-        title "You RSS Feeds"
-        flow do
-          para url, " "
-          button("Remove") { RSSFeeds.remove url }
-        end
+        rss_feed_source url
       end
-      flow do
-        @new_url_edit = edit_line
-        button("Add") { RSSFeeds.add @new_url_edit.text }
-      end
+
+      @new_url_slot = new_rss_feed_slot
+
       button("Done") { close }
+    end
+  end
+end
+
+# display the slot where a user may add a new url to his rss feeds
+def new_rss_feed_slot
+  flow do
+    @new_url_edit = edit_line width: 300
+    button("Add") do
+      new_url = @new_url_edit.text
+      RSSFeeds.add new_url
+
+      # add the newly entered URL to the list of urls
+      @main_stack.before(@new_url_slot) do
+        rss_feed_source new_url
+      end
+      @new_url_edit.text = ""
+    end
+  end
+end
+
+# creates a new RSS feed source entry for a given url
+def rss_feed_source(url)
+  this_entry = flow do
+    para url, " "
+    button("Remove") do
+      RSSFeeds.remove url
+      this_entry.clear
     end
   end
 end
