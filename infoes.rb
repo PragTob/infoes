@@ -1,5 +1,6 @@
 # infoes is a reader that aims to combine multiple services
-# TODO new class for every window, figure out how to this and then do it!
+# TODO new class/file for every window, figure out how to this and then do it!
+# generally more modularization
 
 # yeah we actually need Twitter and a few other gems
 Shoes.setup do
@@ -82,11 +83,12 @@ end
 
 # show the seperate Twitter settings window
 def show_twitter_settings
-  Shoes.app :title => "Twitter Settings", :height => 150, :width => 300 do
+  Shoes.app :title => "Twitter Settings", :height => 300, :width => 300 do
     background gradient(deepskyblue, royalblue)
 
     stack do
       unless TwitterConnection.already_authenticated?
+        restart_notice
         connect_to_twitter_button
         para link("Sign up at Twitter") { Launchy.open TWITTER_SIGNUP }
       else
@@ -122,9 +124,9 @@ end
 def show_rss_settings
   Shoes.app title: "RSS Feed Settings", width: 500, height: 300 do
     background gradient(gold, darkorange)
-    title "You RSS Feeds"
 
     @main_stack = stack do
+      restart_notice
       RSSFeeds.urls.each do |url|
         rss_feed_source url
       end
@@ -162,5 +164,10 @@ def rss_feed_source(url)
       this_entry.clear
     end
   end
+end
+
+def restart_notice
+  para "Please note that you have to restart infoes in order for your changes ",
+    "to take effect. This is a very early alpha version. I am sorry."
 end
 
