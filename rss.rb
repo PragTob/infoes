@@ -1,3 +1,5 @@
+# Class responsible for managing and loading our RSSFeeds
+
 require 'rss/2.0'
 require 'open-uri'
 

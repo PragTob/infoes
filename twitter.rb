@@ -43,6 +43,7 @@ class TwitterConnection
     end
   end
 
+  # load the credentials and configure the twitter gem to use them
   def self.load_credentials
     load_credentials_file
     Twitter.configure do |config|

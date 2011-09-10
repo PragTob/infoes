@@ -16,7 +16,6 @@ TWEET_PIC_WIDTH = 50
 
 # will become a preference
 TWEETS_TO_LOAD = 10
-
 TWITTER_SIGNUP = "https://twitter.com/signup"
 
 # requires are strange but require_relative throws "Can't infer basepath errors"
@@ -26,15 +25,14 @@ require './twitter'
 # main infoes app
 Shoes.app :title => "infoes" do
   background gradient(lime, limegreen)
-  stroke black
   title "This is infoes!", :align => "center"
-
   flow do
     menu
     content
   end
 end
 
+# the main menu displayed on the left hand side
 def menu
   stack width: MENU_WIDTH do
     para link("Twitter Settings") { show_twitter_settings }
@@ -42,8 +40,8 @@ def menu
   end
 end
 
+# main content of the window (tweets and rss feeds)
 def content
-  # main content of the window (tweets and rss feeds)
   stack width: -MENU_WIDTH do
     rss_entries
     tweets
@@ -94,12 +92,16 @@ def show_twitter_settings
       else
         para "Your Twitter account is already connected to infoes!"
       end
-      button("Done") { close }
+      done_button
     end
   end
 end
 
-# create the button that starts the connect to Twitter process
+def done_button
+  button("Done") { close }
+end
+
+# the button that starts the connect to Twitter process
 def connect_to_twitter_button
   button "Connect infoes with twitter" do
     authorization_url = TwitterConnection.get_request_token
@@ -128,8 +130,7 @@ def show_rss_settings
       end
 
       @new_url_slot = new_rss_feed_slot
-
-      button("Done") { close }
+      done_button
     end
   end
 end
@@ -146,6 +147,7 @@ def new_rss_feed_slot
       @main_stack.before(@new_url_slot) do
         rss_feed_source new_url
       end
+      # clear the edit_line so the user can enter a new feed url
       @new_url_edit.text = ""
     end
   end
