@@ -12,16 +12,17 @@ end
 # open links in default browser (see shoes issue #138)
 require 'launchy'
 
+# requires are strange but require_relative throws "Can't infer basepath errors"
+require './rss'
+require './twitter'
+
+
 MENU_WIDTH = 120
 TWEET_PIC_WIDTH = 50
 
 # will become a preference
 TWEETS_TO_LOAD = 10
 TWITTER_SIGNUP = "https://twitter.com/signup"
-
-# requires are strange but require_relative throws "Can't infer basepath errors"
-require './rss'
-require './twitter'
 
 # main infoes app
 Shoes.app :title => "infoes" do
