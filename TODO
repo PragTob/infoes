@@ -1,0 +1,20 @@
+! Have one timeline sorted by publication date
+! Have options like number of tweets to display
+
++ real Twitter features
+  - Tweet
+  - Retweet
+  - Reply
+  - Favorite
++ Attention to the Twitter style guidlines
++ Facebook support?
++ display a more button to display more tweets
+
+~? save tweets etc. on hard drive and just load new ones (do we need this performance wise?)
+~? Have tabs display just seperate event streams of the service (in case you want to)
+  - wait for shoes tabs - weeehuuu
+
+IDEAPLACE
+- Pluginstructure for services (far far far away)
+- Have your events read to you via ck1s gem
+
