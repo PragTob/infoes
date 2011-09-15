@@ -6,7 +6,14 @@ infoes is totally under development and not even nearly ready to being used and 
 
 # Anyway: How to run this thing?
 Well you need shoes.. no not the ones on your feet. You need [shoes] (http://shoesrb.com/), you can go ahead and [download] (http://shoesrb.com/downloads "Download shoes") it, however is done using shoes right from the [github repo] (https://github.com/shoes/shoes). Than simply open infoes.rb with shoes.
-A packaged version, which you can just run, will be available once this is in a releasable state.
+A packaged version, which you can just run, will be available once this is in a releasable state. Or you could...
+
+# Use green shoes
+Green Shoes is a pure ruby implementation of the Shoes interface. Infoes is primarily developed with red shoes, however if you want to go ahead and run it on green shoes, go ahead!
+
+    bundle install
+    ruby create_greenfoes.rb
+    ruby greenfoes.rb
 
 # Know other cool services?
 For now just support for RSS-Feeds and Twitter is planned (maybe Facebook) - but maybe I'll expand. If you got ideas please drop me a message or open an issue!
