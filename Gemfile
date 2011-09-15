@@ -4,4 +4,5 @@ gem 'oauth'
 gem 'twitter'
 gem 'launchy'
 gem 'green_shoes'
+gem 'rake'
 
