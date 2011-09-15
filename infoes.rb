@@ -13,8 +13,8 @@ end
 require 'launchy'
 
 # requires are strange but require_relative throws "Can't infer basepath errors"
-require './rss'
-require './twitter'
+require './lib/rss'
+require './lib/twitter'
 
 
 MENU_WIDTH = 120
