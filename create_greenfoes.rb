@@ -12,6 +12,8 @@ end
 
 # we don't want the Shoes.setup line
 line = infoes_file.readline
+# foremost we need greenshoes
+greenfoes_file << "require 'green_shoes'\n"
 # substitute the shoes gem with the requires
 until line =~ /end/ do
   greenfoes_file << line.gsub('gem', 'require').lstrip
