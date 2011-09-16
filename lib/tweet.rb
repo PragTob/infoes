@@ -7,7 +7,8 @@ class Tweet
 
   TWITTER_URL = "https://twitter.com/#!/"
 
-  attr_reader :publisher_name, :publisher_display_name, :url, :text, :image_url
+  attr_reader :publisher_name, :publisher_display_name, :url, :text, :image_url,
+    :date
 
   # initialize using a tweet object from the Twitter gem
   def initialize(tweet)
@@ -19,7 +20,7 @@ class Tweet
             tweet.user.screen_name +
             "/status/" +
             tweet.id_str
-    info tweet.inspect
+    @date = DateTime.parse tweet.created_at
   end
 
   # we need the shoes object in order to display our objects
