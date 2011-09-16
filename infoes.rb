@@ -162,17 +162,11 @@ def tweets
     flow do
       # seperate stack for the images so they are displayed left
       stack width: TWEET_PIC_WIDTH, height: 60 do
-        image tweet.user.profile_image_url
+        image tweet.image_url
       end
       stack width: -TWEET_PIC_WIDTH do
-        # one of those cases where {..} vs do..end actually matters
-        para tweet.user.name, ": ", tweet.text, " ", link("Go to Tweet") {
-          # when I got the adapter class this will simply be tweet.url
-          Launchy.open(TwitterConnection::TWITTER_URL +
-                      tweet.user.screen_name +
-                      "/status/" +
-                      tweet.id_str)
-        }
+        para tweet.publisher_name, ": ", tweet.text, " ",
+          link("Go to Tweet") { Launchy.open(tweet.url) }
       end
     end
   end

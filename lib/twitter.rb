@@ -3,7 +3,7 @@
 require 'twitter'
 require 'oauth'
 require 'yaml'
-
+require_relative 'tweet'
 
 # Our connection Twitter
 # All methods are class side since this is only for one user
@@ -57,7 +57,7 @@ class TwitterConnection
   def self.get_tweets(number)
     load_credentials
     if already_authenticated?
-      Twitter.home_timeline[0...number]
+      Twitter.home_timeline[0...number].map { |tweet| Tweet.new(tweet) }
     else
       # if we're not authenticated, we can't show tweets
       []
