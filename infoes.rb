@@ -15,9 +15,9 @@ require 'launchy'
 # requires are strange but require_relative throws "Can't infer basepath errors"
 require './lib/rss'
 require './lib/twitter'
+require './lib/tweet'
 
 MENU_WIDTH = 120
-TWEET_PIC_WIDTH = 50
 
 # will become a preference
 TWEETS_TO_LOAD = 10
@@ -159,16 +159,7 @@ end
 def tweets
   tweets = TwitterConnection.get_tweets TWEETS_TO_LOAD
   tweets.each do |tweet|
-    flow do
-      # seperate stack for the images so they are displayed left
-      stack width: TWEET_PIC_WIDTH, height: 60 do
-        image tweet.image_url
-      end
-      stack width: -TWEET_PIC_WIDTH do
-        para tweet.publisher_name, ": ", tweet.text, " ",
-          link("Go to Tweet") { Launchy.open(tweet.url) }
-      end
-    end
+    tweet.display(self)
   end
 end
 
