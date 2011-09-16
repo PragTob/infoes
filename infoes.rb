@@ -32,6 +32,10 @@ def restart_notice
     "to take effect. This is a very early alpha version. I am sorry."
 end
 
+def basic_background
+  background gradient(lime, limegreen)
+end
+
 # display the slot where a user may add a new url to his rss feeds
 def new_rss_feed_slot
   flow do
@@ -113,12 +117,32 @@ def show_twitter_settings
   end
 end
 
+def about
+  Shoes.app width: 500, height: 250 do
+    basic_background
+    stack do
+      para "Infoes was created by me as I got sick of ",
+        "having to check Twitter, my RSS Feeds and Facebook."
+      para "And of course because Ruby makes me happy."
+      para "If you don't know who to follow on Twitter, try ",
+        link("me") { Launchy.open "https://twitter.com/#!/PragTob" }, "."
+      para "If you don't know which blog to follow, try ",
+        link("my blog's RSS Feed") {
+          # again {} necessary
+          Launchy.open "http://pragtob.wordpress.com/feed/"
+        } , "."
+        done_button
+      end
+  end
+end
+
 
 # the main menu displayed on the left hand side
 def menu
   stack width: MENU_WIDTH do
     para link("Twitter Settings") { show_twitter_settings }
     para link("RSS feed Settings") { show_rss_settings }
+    para link("About") { about }
   end
 end
 
@@ -164,7 +188,7 @@ end
 
 # main infoes app
 Shoes.app :title => "infoes" do
-  background gradient(lime, limegreen)
+  basic_background
   title "This is infoes!", :align => "center"
   flow do
     menu
