@@ -25,8 +25,8 @@ class SideTab
 
   # some real evil knievel hack to get initialize and content with normal shoes
   # syntax working presumably by _why himself.
-  def method_missing symbol, *args, &blk
-    @slot.app.send symbol, *args, &blk
+  def method_missing(symbol, *args, &blk)
+    @slot.app.send(symbol, *args, &blk)
   end
 
 end
