@@ -7,8 +7,12 @@ class About < SideTab
     para "Infoes was created by me as I got sick of ",
       "having to check Twitter, my RSS Feeds and Facebook."
     para "And of course because Ruby makes me happy."
-    para "If you don't know who to follow on Twitter, try ",
+    para "Got feedback or issues with infoes? Please head to ",
     # TODO: Why doesn't the method_missing magic work here?
+      @slot.app.link("github") {
+        Launchy.open "https://github.com/PragTob/infoes"
+      }, "!"
+    para "If you don't know who to follow on Twitter, try ",
       @slot.app.link("me") {
         Launchy.open("https://twitter.com/#!/PragTob")
       }, "."
