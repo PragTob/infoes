@@ -12,7 +12,7 @@ A packaged version, which you can just run, will be available once this is in a 
 Green Shoes is a pure ruby implementation of the Shoes interface. Infoes is primarily developed with red shoes, however if you want to go ahead and run it on green shoes, go ahead!
 
     bundle install
-    rake
+    rake green_shoes
     ruby greenfoes.rb
 
 # Know other cool services?
