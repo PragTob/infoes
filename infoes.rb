@@ -20,7 +20,6 @@ require './lib/tweet'
 MENU_WIDTH = 120
 
 # will become a preference
-TWEETS_TO_LOAD = 10
 TWITTER_SIGNUP = "https://twitter.com/signup"
 
 def done_button
@@ -146,24 +145,12 @@ def menu
   end
 end
 
-def rss_entries
-  RSSFeeds.load.each do |rss_entry|
-    rss_entry.display(self)
-  end
-end
-
-def tweets
-  tweets = TwitterConnection.get_tweets TWEETS_TO_LOAD
-  tweets.each do |tweet|
-    tweet.display(self)
-  end
-end
-
 # main content of the window (tweets and rss feeds)
 def content
+  items = []
+  items.concat(RSSFeeds.entries).concat(TwitterConnection.tweets)
   stack width: -MENU_WIDTH do
-    rss_entries
-    tweets
+    items.sort.reverse.each { |each| each.display(self) }
   end
 end
 

@@ -13,6 +13,7 @@ class TwitterConnection
   TWITTER_URL = "https://twitter.com/#!/"
   TWITTER_API_URL = "https://api.twitter.com"
   CREDENTIALS_FILE = 'preferences/twitter_credentials.yml'
+  DEFAULT_TWEETS_TO_LOAD = 10
 
   # gets the request token
   # returns the url the user has to visit in order to authorize the app
@@ -54,7 +55,7 @@ class TwitterConnection
     end
   end
 
-  def self.get_tweets(number)
+  def self.tweets(number= DEFAULT_TWEETS_TO_LOAD)
     load_credentials
     if already_authenticated?
       Twitter.home_timeline[0...number].map { |tweet| Tweet.new(tweet) }

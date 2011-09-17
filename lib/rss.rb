@@ -5,11 +5,10 @@ require 'open-uri'
 require_relative 'rss_entry'
 
 class RSSFeeds
-
   RSS_PREFERENCES = "preferences/rss.yml"
 
   # load all the rss_feeds given in the RSS-Preferences.
-  def self.load
+  def self.entries
     rss_entries = []
     urls.each do |url|
       content = ""

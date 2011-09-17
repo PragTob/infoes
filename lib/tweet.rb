@@ -1,7 +1,9 @@
 require 'twitter'
+require_relative 'date_time_comparable'
 
 # my adapter for twitter gem tweets
 class Tweet
+  include DateTimeComparable
 
   TWEET_PIC_WIDTH = 50
 
@@ -38,13 +40,4 @@ class Tweet
   end
 
 end
-
-## How do we display tweets in shoes?
-#module TweetDisplay
-
-#  def display_tweet(tweet)
-#    para tweet.text
-#  end
-
-#end
 
