@@ -1,4 +1,5 @@
 require 'rss/2.0'
+require 'launchy'
 require_relative 'date_time_comparable'
 
 # adapter for rss entries

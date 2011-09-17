@@ -1,4 +1,5 @@
 require 'twitter'
+require 'launchy'
 require_relative 'date_time_comparable'
 
 # my adapter for twitter gem tweets

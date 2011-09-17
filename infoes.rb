@@ -16,6 +16,7 @@ require 'launchy'
 require './lib/rss'
 require './lib/twitter'
 require './lib/tweet'
+require './lib/ui/home'
 
 MENU_WIDTH = 120
 
@@ -154,13 +155,29 @@ def content
   end
 end
 
+def gettab symbol
+  if @loaded_tabs.include? symbol
+    return @loaded_tabs[symbol]
+  else
+    @loaded_tabs[symbol] = self.class.const_get(symbol).new(@main_content)
+  end
+end
+
+def open_tab(symbol)
+  @current_tab.close unless @current_tab.nil?
+  @current_tab = gettab symbol
+  @current_tab.open
+end
+
 # main infoes app
 Shoes.app :title => "infoes" do
   basic_background
+  @loaded_tabs = {}
   title "This is infoes!", :align => "center"
   flow do
     menu
-    content
+    @main_content = stack width: -MENU_WIDTH
   end
+  open_tab(:Home)
 end
 
