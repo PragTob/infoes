@@ -33,7 +33,7 @@ def menu
   end
 end
 
-def gettab symbol
+def get_tab symbol
   if @loaded_tabs.include? symbol
     return @loaded_tabs[symbol]
   else
@@ -45,7 +45,7 @@ end
 
 def open_tab(symbol)
   @current_tab.close unless @current_tab.nil?
-  @current_tab = gettab symbol
+  @current_tab = get_tab symbol
   @current_tab.open
 end
 

@@ -12,15 +12,27 @@ class TwitterConnection
 
   TWITTER_URL = "https://twitter.com/#!/"
   TWITTER_API_URL = "https://api.twitter.com"
-  CREDENTIALS_FILE = 'preferences/twitter_credentials.yml'
+  PREFERENCES_FILE = 'preferences/twitter.yml'
   DEFAULT_TWEETS_TO_LOAD = 10
+
+  def self.update_preferences
+    File.open PREFERENCES_FILE, 'w' do |file|
+      YAML.dump(@preferences, file)
+    end
+  end
+
+  def self.load_preferences
+    File.open(PREFERENCES_FILE) do |file|
+      @preferences = YAML::load(file)
+    end
+  end
 
   # gets the request token
   # returns the url the user has to visit in order to authorize the app
   def self.get_request_token
-    load_credentials_file
-    @consumer = OAuth::Consumer.new(@credentials['consumer_key'],
-                                    @credentials['consumer_secret'],
+    load_preferences
+    @consumer = OAuth::Consumer.new(@preferences['consumer_key'],
+                                    @preferences['consumer_secret'],
                                     :site => TWITTER_API_URL)
     @request_token = @consumer.get_request_token
     @request_token.authorize_url
@@ -31,44 +43,48 @@ class TwitterConnection
     @access_token = @request_token.get_access_token :pin => pincode
 
     # save the access token to our yaml file
-    @credentials['oauth_token'] = @access_token.token
-    @credentials['oauth_secret'] = @access_token.secret
-    File.open CREDENTIALS_FILE, 'w' do |file|
-      YAML.dump(@credentials, file)
-    end
+    @preferences['oauth_token'] = @access_token.token
+    @preferences['oauth_secret'] = @access_token.secret
+    update_preferences
   end
 
-  def self.load_credentials_file
-    File.open(CREDENTIALS_FILE) do |file|
-      @credentials = YAML::load(file)
-    end
-  end
-
-  # load the credentials and configure the twitter gem to use them
+  # load the preferences and configure the twitter gem to use them
   def self.load_credentials
-    load_credentials_file
+    load_preferences
     Twitter.configure do |config|
-      config.consumer_key = @credentials['consumer_key']
-      config.consumer_secret = @credentials['consumer_secret']
-      config.oauth_token = @credentials['oauth_token']
-      config.oauth_token_secret = @credentials['oauth_secret']
+      config.consumer_key = @preferences['consumer_key']
+      config.consumer_secret = @preferences['consumer_secret']
+      config.oauth_token = @preferences['oauth_token']
+      config.oauth_token_secret = @preferences['oauth_secret']
     end
   end
 
-  def self.tweets(number= DEFAULT_TWEETS_TO_LOAD)
-    load_credentials
-    if already_authenticated?
-      Twitter.home_timeline[0...number].map { |tweet| Tweet.new(tweet) }
-    else
-      # if we're not authenticated, we can't show tweets
-      []
-    end
+  def self.tweets_to_load=(tweets_to_load)
+    load_preferences if @preferences.nil?
+    @preferences['tweets_to_load'] = tweets_to_load
+    update_preferences
+  end
+
+  def self.tweets_to_load
+    @preferences['tweets_to_load'] || DEFAULT_TWEETS_TO_LOAD
   end
 
   # Determine whether the user is already authenticated with infoes
   # therefore check for the presence of the user specific token and secret
   def self.already_authenticated?
-    @credentials['oauth_token'] && @credentials['oauth_secret']
+    @preferences['oauth_token'] && @preferences['oauth_secret']
+  end
+
+  def self.tweets
+    load_credentials
+    number = tweets_to_load.to_i
+    info number
+    if already_authenticated?
+      a = Twitter.home_timeline[0...number].map { |tweet| Tweet.new(tweet) }
+    else
+      # if we're not authenticated, we can't show tweets
+      []
+    end
   end
 
 end
