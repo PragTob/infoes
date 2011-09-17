@@ -3,4 +3,5 @@ greenfoes.rb
 Gemfile.lock
 .rvmrc
 .idea
+spec/test_files/*
 
