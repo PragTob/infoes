@@ -2,6 +2,7 @@
 
 require 'rss/2.0'
 require 'open-uri'
+require_relative 'rss_entry'
 
 class RSSFeeds
 
@@ -9,13 +10,15 @@ class RSSFeeds
 
   # load all the rss_feeds given in the RSS-Preferences.
   def self.load
-    rss_feeds = []
+    rss_entries = []
     urls.each do |url|
       content = ""
       open(url) { |s| content = s.read }
-      rss_feeds << RSS::Parser.parse(content, false)
+      RSS::Parser.parse(content, false).items.each do |rss_entry|
+        rss_entries << RSSEntry.new(rss_entry)
+      end
     end
-    rss_feeds
+    rss_entries
   end
 
   def self.add(url)

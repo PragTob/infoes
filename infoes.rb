@@ -147,12 +147,8 @@ def menu
 end
 
 def rss_entries
-  rss = RSSFeeds.load
-  rss.each do |feed|
-    feed.items.each do |rss_item|
-      para rss_item.title, " ",
-          link("Go to Post") { Launchy.open rss_item.link }
-    end
+  RSSFeeds.load.each do |rss_entry|
+    rss_entry.display(self)
   end
 end
 
