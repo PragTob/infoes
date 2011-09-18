@@ -3,7 +3,8 @@ class SideTab
   def initialize slot
     @slot = slot
     @slot.append do
-      @content = stack :hidden => true do content end
+      # green shoes incompatible @content = stack hidden: true do content end
+      @content = stack do content end
     end
   end
 

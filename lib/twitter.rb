@@ -78,9 +78,8 @@ class TwitterConnection
   def self.tweets
     load_credentials
     number = tweets_to_load.to_i
-    info number
     if already_authenticated?
-      a = Twitter.home_timeline[0...number].map { |tweet| Tweet.new(tweet) }
+      Twitter.home_timeline[0...number].map { |tweet| Tweet.new(tweet) }
     else
       # if we're not authenticated, we can't show tweets
       []
