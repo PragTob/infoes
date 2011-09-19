@@ -30,6 +30,7 @@ class TwitterSettings < SideTab
 
       TwitterConnection.complete_authentication pincode
       alert "Succesfully registered with Twitter!"
+      reset
     end
   end
 

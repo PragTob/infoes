@@ -15,18 +15,6 @@ class TwitterConnection
   PREFERENCES_FILE = 'preferences/twitter.yml'
   DEFAULT_TWEETS_TO_LOAD = 10
 
-  def self.update_preferences
-    File.open PREFERENCES_FILE, 'w' do |file|
-      YAML.dump(@preferences, file)
-    end
-  end
-
-  def self.load_preferences
-    File.open(PREFERENCES_FILE) do |file|
-      @preferences = YAML::load(file)
-    end
-  end
-
   # gets the request token
   # returns the url the user has to visit in order to authorize the app
   def self.get_request_token
@@ -46,17 +34,6 @@ class TwitterConnection
     @preferences['oauth_token'] = @access_token.token
     @preferences['oauth_secret'] = @access_token.secret
     update_preferences
-  end
-
-  # load the preferences and configure the twitter gem to use them
-  def self.load_credentials
-    load_preferences
-    Twitter.configure do |config|
-      config.consumer_key = @preferences['consumer_key']
-      config.consumer_secret = @preferences['consumer_secret']
-      config.oauth_token = @preferences['oauth_token']
-      config.oauth_token_secret = @preferences['oauth_secret']
-    end
   end
 
   def self.tweets_to_load=(tweets_to_load)
@@ -79,15 +56,44 @@ class TwitterConnection
     load_credentials
     number = tweets_to_load.to_i
     if already_authenticated?
-      begin
-        Twitter.home_timeline[0...number].map { |tweet| Tweet.new(tweet) }
-      rescue
-        debug "Authentication with Twitter failed."
-        []
-      end
+      load_tweets(number)
     else
       # if we're not authenticated, we can't show tweets
       []
+    end
+  end
+
+  private
+
+  def self.load_tweets(number)
+    begin
+      Twitter.home_timeline[0...number].map { |tweet| Tweet.new(tweet) }
+    rescue
+      error "Authentication with Twitter failed."
+      []
+    end
+  end
+
+  # load the preferences and configure the twitter gem to use them
+  def self.load_credentials
+    load_preferences
+    Twitter.configure do |config|
+      config.consumer_key = @preferences['consumer_key']
+      config.consumer_secret = @preferences['consumer_secret']
+      config.oauth_token = @preferences['oauth_token']
+      config.oauth_token_secret = @preferences['oauth_secret']
+    end
+  end
+
+  def self.update_preferences
+    File.open PREFERENCES_FILE, 'w' do |file|
+      YAML.dump(@preferences, file)
+    end
+  end
+
+  def self.load_preferences
+    File.open(PREFERENCES_FILE) do |file|
+      @preferences = YAML::load(file)
     end
   end
 

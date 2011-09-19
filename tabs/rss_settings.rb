@@ -33,7 +33,7 @@ class RSSSettings < SideTab
         RSSFeeds.add new_url
 
         # add the newly entered URL to the list of urls
-        @slot.before(@new_url_slot) do
+        @content.before(@new_url_slot) do
           rss_feed_source new_url
         end
         # clear the edit_line so the user can enter a new feed url
