@@ -79,7 +79,12 @@ class TwitterConnection
     load_credentials
     number = tweets_to_load.to_i
     if already_authenticated?
-      Twitter.home_timeline[0...number].map { |tweet| Tweet.new(tweet) }
+      begin
+        Twitter.home_timeline[0...number].map { |tweet| Tweet.new(tweet) }
+      rescue
+        debug "Authentication with Twitter failed."
+        []
+      end
     else
       # if we're not authenticated, we can't show tweets
       []
