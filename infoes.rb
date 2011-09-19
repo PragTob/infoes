@@ -11,9 +11,6 @@ end
 require 'launchy'
 
 # requires are strange but require_relative throws "Can't infer basepath errors"
-require './lib/rss'
-require './lib/twitter'
-require './lib/tweet'
 require './tabs/home'
 require './tabs/rss_settings'
 require './tabs/about'
@@ -37,8 +34,9 @@ def get_tab symbol
   if @loaded_tabs.include? symbol
     return @loaded_tabs[symbol]
   else
-    # load the class responding to the symbol
-    # class could also be required just here, what do you think?
+    # load the class responding to the symbol(the desired tab)
+    # the class could also be required just here, what do you think?
+    # (gently stolen/adapted from the hacketyhack code)
     @loaded_tabs[symbol] = self.class.const_get(symbol).new(@main_content)
   end
 end
@@ -58,6 +56,8 @@ Shoes.app :title => "infoes" do
     menu
     @main_content = stack width: -MENU_WIDTH
   end
+
+  # we start at home!
   open_tab(:Home)
 end
 

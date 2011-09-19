@@ -7,7 +7,6 @@ class Tweet
   include DateTimeComparable
 
   TWEET_PIC_WIDTH = 50
-
   TWITTER_URL = "https://twitter.com/#!/"
 
   attr_reader :publisher_name, :publisher_display_name, :url, :text, :image_url,
@@ -26,7 +25,7 @@ class Tweet
     @date_time = Time.parse tweet.created_at
   end
 
-  # we need the shoes object in order to display our objects
+  # we need the shoes object in order to display our tweets
   def display(shoes)
     shoes.flow do
       # seperate stack for the images so they are displayed left

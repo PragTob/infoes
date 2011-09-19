@@ -8,7 +8,7 @@ class About < SideTab
       "having to check Twitter, my RSS Feeds and Facebook."
     para "And of course because Ruby makes me happy."
     para "Got feedback or issues with infoes? Please head to ",
-    # TODO: Why doesn't the method_missing magic work here?
+    # TODO: Why doesn't the method_missing magic work with link?
       @slot.app.link("github") {
         Launchy.open "https://github.com/PragTob/infoes"
       }, "!"
@@ -18,7 +18,6 @@ class About < SideTab
       }, "."
     para "If you don't know which blog to follow, try ",
       @slot.app.link("my blog's RSS Feed") {
-        # again {} necessary
         Launchy.open "http://pragtob.wordpress.com/feed/"
       } , "."
   end
