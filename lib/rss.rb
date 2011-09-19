@@ -1,23 +1,23 @@
-# Class responsible for managing and loading our RSSFeeds
-
 require 'rss/2.0'
 require 'open-uri'
 require_relative 'rss_entry'
 
+# Class responsible for managing and loading our RSSFeeds
 class RSSFeeds
+
   RSS_PREFERENCES = "preferences/rss.yml"
 
   # load all the rss_feeds given in the RSS-Preferences.
   def self.entries
-    rss_entries = []
-    urls.each do |url|
-      content = ""
-      open(url) { |s| content = s.read }
-      RSS::Parser.parse(content, false).items.each do |rss_entry|
-        rss_entries << RSSEntry.new(rss_entry)
-      end
+    urls.inject([]) { |rss_entries, url| rss_entries + parse_rss_entries(url) }
+  end
+
+  def self.parse_rss_entries(url)
+    content = ""
+    open(url) { |s| content = s.read }
+    RSS::Parser.parse(content, false).items.inject([]) do |entries, rss_entry|
+      entries << RSSEntry.new(rss_entry)
     end
-    rss_entries
   end
 
   def self.add(url)
@@ -44,6 +44,7 @@ class RSSFeeds
     else
       @urls = []
     end
+    @urls
   end
 
   # dump the new preferences into our preferences file (for now just urls)
