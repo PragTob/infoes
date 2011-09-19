@@ -1,8 +1,8 @@
 require './tabs/side_tab.rb'
 
 # requires are strange but require_relative throws "Can't infer basepath errors"
-require './lib/rss'
-require './lib/twitter'
+require './lib/rss_feeds'
+require './lib/twitter_connection'
 
 class Home < SideTab
 

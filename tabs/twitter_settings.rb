@@ -1,6 +1,6 @@
 require './tabs/side_tab'
 require 'launchy'
-require './lib/twitter'
+require './lib/twitter_connection'
 
 class TwitterSettings < SideTab
 

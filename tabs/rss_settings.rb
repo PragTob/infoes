@@ -1,5 +1,5 @@
 require './tabs/side_tab'
-require './lib/rss'
+require './lib/rss_feeds'
 
 class RSSSettings < SideTab
 
