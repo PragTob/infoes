@@ -16,7 +16,8 @@ class RSSEntry
   end
 
   def display(shoes)
-    shoes.para title, " ", shoes.link("Go to Post") { Launchy.open url }
+    shoes.para title, " ", date_time, " ",
+      shoes.link("Go to Post") { Launchy.open url }
   end
 end
 
