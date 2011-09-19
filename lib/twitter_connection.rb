@@ -70,8 +70,15 @@ class TwitterConnection
       Twitter.home_timeline[0...number].map { |tweet| Tweet.new(tweet) }
     rescue
       error "Authentication with Twitter failed."
+      # our user may try and reauthenticate with Twitter
+      unvalidate_authentication
       []
     end
+  end
+
+  def self.unvalidate_authentication
+    @preferences['oauth_token'], @preferences['oauth_secret'] = nil, nil
+    update_preferences
   end
 
   # load the preferences and configure the twitter gem to use them
