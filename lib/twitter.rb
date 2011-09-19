@@ -5,7 +5,7 @@ require 'oauth'
 require 'yaml'
 require_relative 'tweet'
 
-# Our connection Twitter
+# Our connection to Twitter
 # All methods are class side since this is only for one user
 # no need for an instance
 class TwitterConnection
