@@ -27,7 +27,7 @@ def menu
     para link("Twitter Settings") { open_tab(:TwitterSettings) }
     para link("RSS feed Settings") { open_tab(:RSSSettings) }
     para link("About") { open_tab(:About) }
-    para link("Close") { close }
+    para link("Close") { close if confirm "Are you sure?" }
   end
 end
 
