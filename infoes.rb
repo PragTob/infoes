@@ -49,7 +49,7 @@ def open_tab(symbol)
 end
 
 # main infoes app
-Shoes.app :title => "infoes" do
+Shoes.app title: "infoes", width: 700, height: 700 do
   background gradient(lime, limegreen)
   @loaded_tabs = {}
   title "This is infoes!", :align => "center"
