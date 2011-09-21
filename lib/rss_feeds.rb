@@ -14,9 +14,16 @@ class RSSFeeds
 
   def self.parse_rss_entries(url)
     content = ""
-    open(url) { |s| content = s.read }
-    RSS::Parser.parse(content, false).items.inject([]) do |entries, rss_entry|
-      entries << RSSEntry.new(rss_entry)
+    begin
+      open(url) { |s| content = s.read }
+
+      RSS::Parser.parse(content, false).items.inject([]) do |entries, rss_entry|
+        entries << RSSEntry.new(rss_entry)
+      end
+    rescue
+      error "Could not open or parse #{url} as an RSS Feed"
+      # compatibility for further methods even in error cases
+      []
     end
   end
 
