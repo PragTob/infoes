@@ -18,7 +18,8 @@ class GeneralSettings < SideTab
       color = ask_color "What background color would you like?"
       if color
         Settings.color = color
-        alert "Background color succesfully changed. Change will take effect after restart."
+        alert "Background color succesfully changed." +
+              "Change will take effect after restart."
       end
     end
   end
@@ -44,7 +45,8 @@ class GeneralSettings < SideTab
       @height_edit = edit_line(Settings.height, width: SMALL_EDIT_LINE_WIDTH)
       button "Change" do
         Settings.new_dimensions(@width_edit.text, @height_edit.text)
-        alert "Windows dimensions succesfully changed! Change will take effect after restart."
+        alert "Windows dimensions succesfully changed!" +
+              "Change will take effect after restart."
       end
     end
   end
