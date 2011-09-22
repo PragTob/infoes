@@ -42,6 +42,14 @@ class RSSFeeds
     @urls || load_preferences
   end
 
+  def self.validate_url(url)
+    begin
+      open(url)
+    rescue
+      false
+    end
+  end
+
   private
 
   # load the preferences file (if it exists), otherwise we don't have urls

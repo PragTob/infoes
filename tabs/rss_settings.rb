@@ -24,20 +24,27 @@ class RSSSettings < SideTab
     end
   end
 
+  def add_feed(url)
+    RSSFeeds.add url
+    @content.before(@new_url_slot) do
+      rss_feed_source url
+    end
+
+    @new_url_edit.text = ""
+  end
+
   # display the slot where a user may add a new url to his rss feeds
   def new_rss_feed_slot
     flow do
       @new_url_edit = edit_line width: 300
       button("Add") do
         new_url = @new_url_edit.text
-        RSSFeeds.add new_url
-
-        # add the newly entered URL to the list of urls
-        @content.before(@new_url_slot) do
-          rss_feed_source new_url
+        if RSSFeeds.validate_url(new_url)
+          add_feed(new_url)
+        else
+          alert "The url you entered doesn't seem to be valid.
+                 Please verify it!"
         end
-        # clear the edit_line so the user can enter a new feed url
-        @new_url_edit.text = ""
       end
     end
   end
