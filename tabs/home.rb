@@ -9,7 +9,7 @@ class Home < SideTab
   def content
     items = []
     items.concat(RSSFeeds.entries).concat(TwitterConnection.tweets)
-    button("Refresh") { reset }
+    every(60) { clear { content } }
     items.sort.reverse.each { |each| each.display(self) }
   end
 
