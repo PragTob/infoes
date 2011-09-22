@@ -4,57 +4,58 @@ class Settings
 
   def self.color=(color)
     color_hash = color_hash(color)
-    settings { |settings| settings[:color] = color_hash }
+    change_settings { |settings| settings[:color] = color_hash }
   end
 
   def self.color
-    load_settings
-    color = @settings[:color]
+    color = settings[:color]
     Shoes.rgb(color[:red], color[:green], color[:blue])
   end
 
   def self.reload_interval=(time)
-    settings { |settings| settings[:interval] = time * 60 }
+    change_settings { |settings| settings[:interval] = time * 60 }
   end
 
   def self.reload_interval
-    load_settings
-    @settings[:interval]
+    settings[:interval]
   end
 
   def self.reload_interval=(time)
     time = time.to_i
-    settings { |settings| settings[:interval] = time * 60 }
+    change_settings { |settings| settings[:interval] = time * 60 }
   end
 
   def self.new_dimensions(width, height)
-    settings do |settings|
+    change_settings do |settings|
       settings[:width] = width.to_i
       settings[:height] = height.to_i
     end
   end
 
   def self.width
-    load_settings
-    @settings[:width]
+    settings[:width]
   end
 
   def self.height
-    load_settings
-    @settings[:height]
+    settings[:height]
+  end
+
+  def self.settings
+    @settings || load_settings
   end
 
   private
 
   def self.load_settings
     File.open(SETTINGS_PATH) { |file| @settings = YAML::load(file) }
+    @settings
   end
 
   def self.save_settings
     File.open(SETTINGS_PATH, 'w') { |file| YAML.dump(@settings, file) }
   end
 
-  def self.settings
+  def self.change_settings
     load_settings
     yield @settings
     save_settings

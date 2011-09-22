@@ -12,21 +12,6 @@ class RSSFeeds
     urls.inject([]) { |rss_entries, url| rss_entries + parse_rss_entries(url) }
   end
 
-  def self.parse_rss_entries(url)
-    content = ""
-    begin
-      open(url) { |s| content = s.read }
-
-      RSS::Parser.parse(content, false).items.inject([]) do |entries, rss_entry|
-        entries << RSSEntry.new(rss_entry)
-      end
-    rescue
-      error "Could not open or parse #{url} as an RSS Feed"
-      # compatibility for further methods even in error cases
-      []
-    end
-  end
-
   def self.add(url)
     urls << url
     change_preferences
@@ -66,6 +51,21 @@ class RSSFeeds
   def self.change_preferences
     File.open(RSS_PREFERENCES, 'w') do |file|
       YAML.dump(@urls, file)
+    end
+  end
+
+  def self.parse_rss_entries(url)
+    content = ""
+    begin
+      open(url) { |s| content = s.read }
+
+      RSS::Parser.parse(content, false).items.inject([]) do |entries, rss_entry|
+        entries << RSSEntry.new(rss_entry)
+      end
+    rescue
+      error "Could not open or parse #{url} as an RSS Feed"
+      # compatibility for further methods even in error cases
+      []
     end
   end
 
