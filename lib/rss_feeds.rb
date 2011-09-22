@@ -64,7 +64,7 @@ class RSSFeeds
 
   # dump the new preferences into our preferences file (for now just urls)
   def self.change_preferences
-    File.open RSS_PREFERENCES, 'w' do |file|
+    File.open(RSS_PREFERENCES, 'w') do |file|
       YAML.dump(@urls, file)
     end
   end

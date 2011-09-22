@@ -15,6 +15,8 @@ require './tabs/home'
 require './tabs/rss_settings'
 require './tabs/about'
 require './tabs/twitter_settings'
+require './tabs/general_settings'
+require './lib/settings'
 
 MENU_WIDTH = 120
 
@@ -26,6 +28,7 @@ def menu
     para link("Home") { open_tab(:Home) }
     para link("Twitter Settings") { open_tab(:TwitterSettings) }
     para link("RSS feed Settings") { open_tab(:RSSSettings) }
+    para link("General Settings") { open_tab(:GeneralSettings) }
     para link("About") { open_tab(:About) }
     para link("Close") { close if confirm "Are you sure?" }
   end
@@ -50,7 +53,7 @@ end
 
 # main infoes app
 Shoes.app title: "infoes", width: 700, height: 700 do
-  background gradient(lime, limegreen)
+  background Settings.color
   @loaded_tabs = {}
   title "This is infoes!", :align => "center"
   flow do
