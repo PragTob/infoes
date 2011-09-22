@@ -1,0 +1,11 @@
+--- 
+:color: 
+  :red: 0
+  :blue: 0
+  :green: 255
+:interval: 300
+:dimensions: 
+  :width: 700
+  :height: 700
+:width: 700
+:height: 700
