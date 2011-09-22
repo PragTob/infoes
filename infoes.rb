@@ -7,9 +7,6 @@ Shoes.setup do
   gem 'launchy'
 end
 
-# open links in default browser (see shoes issue #138)
-require 'launchy'
-
 # requires are strange but require_relative throws "Can't infer basepath errors"
 require './tabs/home'
 require './tabs/rss_settings'
@@ -34,8 +31,8 @@ def menu
   end
 end
 
-def get_tab symbol
-  if @loaded_tabs.include? symbol
+def get_tab(symbol)
+  if @loaded_tabs.include?(symbol)
     return @loaded_tabs[symbol]
   else
     # load the class responding to the symbol(the desired tab)

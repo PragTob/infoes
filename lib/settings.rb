@@ -3,7 +3,7 @@ class Settings
   SETTINGS_PATH = "preferences/settings.yml"
 
   def self.color=(color)
-    color_hash = color_hash(color)
+    color_hash = color_hash_from(color)
     change_settings { |settings| settings[:color] = color_hash }
   end
 
@@ -21,8 +21,7 @@ class Settings
   end
 
   def self.reload_interval=(time)
-    time = time.to_i
-    change_settings { |settings| settings[:interval] = time * 60 }
+    change_settings { |settings| settings[:interval] = time.to_i * 60 }
   end
 
   def self.new_dimensions(width, height)
@@ -61,12 +60,8 @@ class Settings
     save_settings
   end
 
-  def self.color_hash(color)
-    c_hash = {}
-    c_hash[:red] = color.red
-    c_hash[:blue] = color.blue
-    c_hash[:green] = color.green
-    c_hash
+  def self.color_hash_from(color)
+    { red: color.red, blue: color.blue, green: color.green }
   end
 
 end

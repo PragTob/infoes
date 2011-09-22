@@ -1,7 +1,7 @@
 # tabs as inspired by the hacketyhack code
 class SideTab
 
-  def initialize slot
+  def initialize(slot)
     @slot = slot
     @slot.append do
       # green shoes incompatible @content = stack hidden: true do content end
@@ -22,7 +22,7 @@ class SideTab
   end
 
   def reset
-    clear {content}
+    clear { content }
   end
 
   # some real evil knievel hack to get initialize and content with normal shoes

@@ -26,5 +26,6 @@ describe "GreenMaker" do
     new_source.should_not match /end/
     new_source.should match /require 'green_shoes'/
   end
+
 end
 

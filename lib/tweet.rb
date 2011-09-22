@@ -22,7 +22,7 @@ class Tweet
             tweet.user.screen_name +
             "/status/" +
             tweet.id_str
-    @date_time = Time.parse tweet.created_at
+    @date_time = Time.parse(tweet.created_at)
   end
 
   # we need the shoes object in order to display our tweets
