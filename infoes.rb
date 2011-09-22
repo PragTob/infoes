@@ -52,7 +52,7 @@ def open_tab(symbol)
 end
 
 # main infoes app
-Shoes.app title: "infoes", width: 700, height: 700 do
+Shoes.app title: "infoes", width: Settings.width, height: Settings.height do
   background Settings.color
   @loaded_tabs = {}
   title "This is infoes!", :align => "center"

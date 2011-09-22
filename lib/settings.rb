@@ -22,6 +22,28 @@ class Settings
     @settings[:interval]
   end
 
+  def self.reload_interval=(time)
+    time = time.to_i
+    settings { |settings| settings[:interval] = time * 60 }
+  end
+
+  def self.new_dimensions(width, height)
+    settings do |settings|
+      settings[:width] = width.to_i
+      settings[:height] = height.to_i
+    end
+  end
+
+  def self.width
+    load_settings
+    @settings[:width]
+  end
+
+  def self.height
+    load_settings
+    @settings[:height]
+  end
+
   private
 
   def self.load_settings
