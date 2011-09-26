@@ -13,10 +13,6 @@ module Settings
     Shoes.rgb(color[:red], color[:green], color[:blue])
   end
 
-  def reload_interval=(time)
-    change_settings { |settings| settings[:interval] = time * 60 }
-  end
-
   def reload_interval
     settings[:interval]
   end
