@@ -39,7 +39,7 @@ def get_tab(symbol)
     # load the class responding to the symbol(the desired tab)
     # the class could also be required just here, what do you think?
     # (gently stolen/adapted from the hacketyhack code)
-    @loaded_tabs[symbol] = self.class.const_get(symbol).new(@main_content)
+    @loaded_tabs[symbol] = Infoes.const_get(symbol).new(@main_content)
   end
 end
 
@@ -50,8 +50,9 @@ def open_tab(symbol)
 end
 
 # main infoes app
-Shoes.app title: "infoes", width: Settings.width, height: Settings.height do
-  background Settings.color
+Shoes.app title: "infoes", width: Infoes::Settings.width,
+          height: Infoes::Settings.height do
+  background Infoes::Settings.color
   @loaded_tabs = {}
   title "This is infoes!", :align => "center"
   flow do

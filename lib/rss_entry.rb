@@ -1,23 +1,27 @@
 require 'launchy'
 require_relative 'date_time_comparable'
 
-# adapter for rss entries
-class RSSEntry
-  include DateTimeComparable
+module Infoes
 
-  attr_reader :title, :url, :date_time
+  # adapter for rss entries
+  class RSSEntry
+    include DateTimeComparable
 
-  # initialize given the feed object
-  def initialize(feed_entry)
-    @title = feed_entry.title
-    @url = feed_entry.url
-    # RSS vs. Atom
-    @date_time = feed_entry.published
+    attr_reader :title, :url, :date_time
+
+    # initialize given the feed object
+    def initialize(feed_entry)
+      @title = feed_entry.title
+      @url = feed_entry.url
+      # RSS vs. Atom
+      @date_time = feed_entry.published
+    end
+
+    def display(shoes)
+      shoes.para title, " ", date_time, " ",
+        shoes.link("Go to Post") { Launchy.open(url) }
+    end
   end
 
-  def display(shoes)
-    shoes.para title, " ", date_time, " ",
-      shoes.link("Go to Post") { Launchy.open(url) }
-  end
 end
 
