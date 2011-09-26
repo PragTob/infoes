@@ -34,6 +34,10 @@ module RSSFeeds
     end
   end
 
+  def urls
+    settings
+  end
+
   private
 
   # load the preferences file (if it exists), otherwise we don't have urls
@@ -57,6 +61,10 @@ module RSSFeeds
       # compatibility for further methods even in error cases
       []
     end
+  end
+
+  def settings_path
+    RSS_PREFERENCES
   end
 
 end
