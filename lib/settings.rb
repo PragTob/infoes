@@ -39,10 +39,6 @@ module Settings
     settings[:height]
   end
 
-  def settings
-    load_settings
-  end
-
   private
 
   def color_hash_from(color)
