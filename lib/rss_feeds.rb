@@ -40,16 +40,6 @@ module RSSFeeds
 
   private
 
-  # load the preferences file (if it exists), otherwise we don't have urls
-  # TODO: create the file and commit it to the repo
-  def load_preferences
-    if File.exist?(RSS_PREFERENCES)
-      settings
-    else
-      []
-    end
-  end
-
   def parse_rss_entries(url)
     begin
       Feedzirra::Feed.fetch_and_parse(url).entries.inject([]) do
