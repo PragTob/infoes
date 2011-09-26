@@ -1,5 +1,4 @@
 module Infoes
-
   class Home < SideTab
 
     def content
@@ -23,6 +22,5 @@ module Infoes
     end
 
   end
-
 end
 

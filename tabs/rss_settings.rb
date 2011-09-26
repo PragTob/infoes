@@ -1,5 +1,4 @@
 module Infoes
-
   class RSSSettings < SideTab
 
     def content
@@ -47,6 +46,5 @@ module Infoes
     end
 
   end
-
 end
 

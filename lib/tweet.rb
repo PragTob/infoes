@@ -1,14 +1,12 @@
 module Infoes
-
-  # my adapter for twitter gem tweets
   class Tweet
     include DateTimeComparable
 
     TWEET_PIC_WIDTH = 50
     TWITTER_URL = "https://twitter.com/#!/"
 
-    attr_reader :publisher_name, :publisher_display_name, :url, :text, :image_url,
-      :date_time
+    attr_reader :publisher_name, :publisher_display_name, :url, :text,
+                :image_url, :date_time
 
     # initialize using a tweet object from the Twitter gem
     def initialize(tweet)
@@ -40,6 +38,5 @@ module Infoes
     end
 
   end
-
 end
 

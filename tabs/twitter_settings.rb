@@ -8,7 +8,9 @@ module Infoes
         tweets_to_load_option
       else
         connect_to_twitter_button
-        para @slot.app.link("Sign up at Twitter") { Launchy.open(TWITTER_SIGNUP) }
+        para @slot.app.link "Sign up at Twitter" do
+          Launchy.open(TWITTER_SIGNUP)
+        end
       end
     end
 
@@ -32,7 +34,7 @@ module Infoes
       flow do
         para "Number of tweets to load:"
         to_load_edit = edit_line TwitterConnection.tweets_to_load
-        button("Change") do
+        button "Change" do
           TwitterConnection.tweets_to_load = to_load_edit.text
           alert "You successfully changed the number of tweets to load!"
         end
@@ -40,6 +42,5 @@ module Infoes
     end
 
   end
-
 end
 

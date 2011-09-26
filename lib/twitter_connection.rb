@@ -1,5 +1,4 @@
 module Infoes
-
   module TwitterConnection
       extend YAMLSettings
       extend self
@@ -19,7 +18,7 @@ module Infoes
     end
 
     def complete_authentication(pincode)
-      @access_token = @request_token.get_access_token(:pin => pincode)
+      @access_token = @request_token.get_access_token(pin: pincode)
 
       change_settings do |settings|
         settings['oauth_token'] = @access_token.token
@@ -69,7 +68,6 @@ module Infoes
       end
     end
 
-    # load the preferences and configure the twitter gem to use them
     def load_credentials
       Twitter.configure do |config|
         config.consumer_key = settings['consumer_key']
@@ -84,6 +82,5 @@ module Infoes
     end
 
   end
-
 end
 

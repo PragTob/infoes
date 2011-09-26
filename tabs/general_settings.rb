@@ -1,5 +1,4 @@
 module Infoes
-
   class GeneralSettings < SideTab
 
     SMALL_EDIT_LINE_WIDTH = 60
@@ -51,6 +50,5 @@ module Infoes
     end
 
   end
-
 end
 

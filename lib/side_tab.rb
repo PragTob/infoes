@@ -1,5 +1,4 @@
 module Infoes
-
   # tabs as inspired by the hacketyhack code
   class SideTab
 
@@ -34,6 +33,5 @@ module Infoes
     end
 
   end
-
 end
 

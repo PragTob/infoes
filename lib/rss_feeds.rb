@@ -1,11 +1,4 @@
-require 'feedzirra'
-require 'open-uri'
-require 'yaml'
-require_relative 'rss_entry'
-require_relative 'yaml_settings'
-
 module Infoes
-
   module RSSFeeds
     extend YAMLSettings
     extend self
@@ -59,6 +52,5 @@ module Infoes
     end
 
   end
-
 end
 

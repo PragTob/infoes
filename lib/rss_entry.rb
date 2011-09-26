@@ -1,12 +1,9 @@
 module Infoes
-
-  # adapter for rss entries
   class RSSEntry
     include DateTimeComparable
 
     attr_reader :title, :url, :date_time
 
-    # initialize given the feed object
     def initialize(feed_entry)
       @title = feed_entry.title
       @url = feed_entry.url
@@ -18,7 +15,7 @@ module Infoes
       shoes.para title, " ", date_time, " ",
         shoes.link("Go to Post") { Launchy.open(url) }
     end
-  end
 
+  end
 end
 

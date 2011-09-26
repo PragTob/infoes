@@ -1,5 +1,4 @@
 module Infoes
-
   module Settings
     extend YAMLSettings
     extend self
@@ -50,6 +49,5 @@ module Infoes
     end
 
   end
-
 end
 

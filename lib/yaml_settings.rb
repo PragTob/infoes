@@ -1,5 +1,4 @@
 module Infoes
-
   module YAMLSettings
 
     def save_settings
@@ -21,6 +20,5 @@ module Infoes
     end
 
   end
-
 end
 
