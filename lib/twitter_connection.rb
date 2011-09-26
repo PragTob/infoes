@@ -3,7 +3,8 @@ require 'oauth'
 require 'yaml'
 require_relative 'tweet'
 
-class TwitterConnection
+module TwitterConnection
+    extend self
 
   TWITTER_URL = "https://twitter.com/#!/"
   TWITTER_API_URL = "https://api.twitter.com"
@@ -11,7 +12,7 @@ class TwitterConnection
   DEFAULT_TWEETS_TO_LOAD = 10
 
   # returns the url the user has to visit in order to authorize the app
-  def self.get_request_token
+  def get_request_token
     load_preferences
     @consumer = OAuth::Consumer.new(@preferences['consumer_key'],
                                     @preferences['consumer_secret'],
@@ -20,7 +21,7 @@ class TwitterConnection
     @request_token.authorize_url
   end
 
-  def self.complete_authentication(pincode)
+  def complete_authentication(pincode)
     @access_token = @request_token.get_access_token :pin => pincode
 
     @preferences['oauth_token'] = @access_token.token
@@ -28,21 +29,21 @@ class TwitterConnection
     update_preferences
   end
 
-  def self.tweets_to_load=(tweets_to_load)
+  def tweets_to_load=(tweets_to_load)
     load_preferences if @preferences.nil?
     @preferences['tweets_to_load'] = tweets_to_load
     update_preferences
   end
 
-  def self.tweets_to_load
+  def tweets_to_load
     @preferences['tweets_to_load'] || DEFAULT_TWEETS_TO_LOAD
   end
 
-  def self.already_authenticated?
+  def already_authenticated?
     @preferences['oauth_token'] && @preferences['oauth_secret']
   end
 
-  def self.tweets
+  def tweets
     load_credentials
     number = tweets_to_load.to_i
     if already_authenticated?
@@ -55,7 +56,7 @@ class TwitterConnection
 
   private
 
-  def self.load_tweets(number)
+  def load_tweets(number)
     begin
       Twitter.home_timeline[0...number].map { |tweet| Tweet.new(tweet) }
     rescue
@@ -66,13 +67,13 @@ class TwitterConnection
     end
   end
 
-  def self.unvalidate_authentication
+  def unvalidate_authentication
     @preferences['oauth_token'], @preferences['oauth_secret'] = nil, nil
     update_preferences
   end
 
   # load the preferences and configure the twitter gem to use them
-  def self.load_credentials
+  def load_credentials
     load_preferences
     Twitter.configure do |config|
       config.consumer_key = @preferences['consumer_key']
@@ -82,13 +83,13 @@ class TwitterConnection
     end
   end
 
-  def self.update_preferences
+  def update_preferences
     File.open(PREFERENCES_FILE, 'w') do |file|
       YAML.dump(@preferences, file)
     end
   end
 
-  def self.load_preferences
+  def load_preferences
     File.open(PREFERENCES_FILE) do |file|
       @preferences = YAML::load(file)
     end

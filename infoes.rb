@@ -44,7 +44,7 @@ end
 
 def open_tab(symbol)
   @current_tab.close unless @current_tab.nil?
-  @current_tab = get_tab symbol
+  @current_tab = get_tab(symbol)
   @current_tab.open
 end
 

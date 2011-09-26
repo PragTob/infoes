@@ -3,31 +3,32 @@ require 'open-uri'
 require_relative 'rss_entry'
 
 # Class responsible for managing and loading our RSSFeeds
-class RSSFeeds
+module RSSFeeds
+  extend self
 
   RSS_PREFERENCES = "preferences/rss.yml"
 
   # load all the rss_feeds given in the RSS-Preferences.
-  def self.entries
+  def entries
     urls.inject([]) { |rss_entries, url| rss_entries + parse_rss_entries(url) }
   end
 
-  def self.add(url)
+  def add(url)
     urls << url
     change_preferences
   end
 
-  def self.remove(url)
+  def remove(url)
     urls.delete url
     change_preferences
   end
 
   # the feed urls
-  def self.urls
+  def urls
     @urls || load_preferences
   end
 
-  def self.validate_url(url)
+  def validate_url(url)
     begin
       open(url)
     rescue
@@ -38,7 +39,7 @@ class RSSFeeds
   private
 
   # load the preferences file (if it exists), otherwise we don't have urls
-  def self.load_preferences
+  def load_preferences
     if File.exist? RSS_PREFERENCES
       File.open(RSS_PREFERENCES) { |file| @urls = YAML::load(file) }
     else
@@ -48,13 +49,13 @@ class RSSFeeds
   end
 
   # dump the new preferences into our preferences file (for now just urls)
-  def self.change_preferences
+  def change_preferences
     File.open(RSS_PREFERENCES, 'w') do |file|
       YAML.dump(@urls, file)
     end
   end
 
-  def self.parse_rss_entries(url)
+  def parse_rss_entries(url)
     content = ""
     begin
       open(url) { |s| content = s.read }
