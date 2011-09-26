@@ -1,7 +1,3 @@
-require 'twitter'
-require 'launchy'
-require_relative 'date_time_comparable'
-
 module Infoes
 
   # my adapter for twitter gem tweets

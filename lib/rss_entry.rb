@@ -1,6 +1,3 @@
-require 'launchy'
-require_relative 'date_time_comparable'
-
 module Infoes
 
   # adapter for rss entries

@@ -1,6 +1,3 @@
-require_relative 'side_tab'
-require_relative '../lib/settings'
-
 module Infoes
 
   class GeneralSettings < SideTab

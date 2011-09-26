@@ -1,6 +1,3 @@
-require './tabs/side_tab'
-require './lib/rss_feeds'
-
 module Infoes
 
   class RSSSettings < SideTab

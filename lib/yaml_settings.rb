@@ -1,6 +1,5 @@
-require 'yaml'
-
 module Infoes
+
   module YAMLSettings
 
     def save_settings

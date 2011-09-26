@@ -1,5 +1,3 @@
-require_relative 'yaml_settings'
-
 module Infoes
 
   module Settings

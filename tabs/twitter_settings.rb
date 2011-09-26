@@ -1,7 +1,3 @@
-require './tabs/side_tab'
-require 'launchy'
-require './lib/twitter_connection'
-
 module Infoes
   class TwitterSettings < SideTab
 

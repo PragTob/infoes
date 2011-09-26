@@ -1,6 +1,3 @@
-require './tabs/side_tab'
-require 'launchy'
-
 module Infoes
 
   class About < SideTab

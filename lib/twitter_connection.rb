@@ -1,9 +1,3 @@
-require 'twitter'
-require 'oauth'
-require 'yaml'
-require_relative 'tweet'
-require_relative 'yaml_settings'
-
 module Infoes
 
   module TwitterConnection
