@@ -2,20 +2,21 @@ require 'twitter'
 require 'oauth'
 require 'yaml'
 require_relative 'tweet'
+require_relative 'yaml_settings'
 
 module TwitterConnection
+    extend YAMLSettings
     extend self
 
   TWITTER_URL = "https://twitter.com/#!/"
   TWITTER_API_URL = "https://api.twitter.com"
-  PREFERENCES_FILE = 'preferences/twitter.yml'
+  SETTINGS_PATH = 'preferences/twitter.yml'
   DEFAULT_TWEETS_TO_LOAD = 10
 
   # returns the url the user has to visit in order to authorize the app
   def get_request_token
-    load_preferences
-    @consumer = OAuth::Consumer.new(@preferences['consumer_key'],
-                                    @preferences['consumer_secret'],
+    @consumer = OAuth::Consumer.new(settings['consumer_key'],
+                                    settings['consumer_secret'],
                                     :site => TWITTER_API_URL)
     @request_token = @consumer.get_request_token
     @request_token.authorize_url
@@ -24,23 +25,22 @@ module TwitterConnection
   def complete_authentication(pincode)
     @access_token = @request_token.get_access_token(:pin => pincode)
 
-    @preferences['oauth_token'] = @access_token.token
-    @preferences['oauth_secret'] = @access_token.secret
-    update_preferences
+    change_settings do |settings|
+      settings['oauth_token'] = @access_token.token
+      settings['oauth_secret'] = @access_token.secret
+    end
   end
 
   def tweets_to_load=(tweets_to_load)
-    load_preferences if @preferences.nil?
-    @preferences['tweets_to_load'] = tweets_to_load
-    update_preferences
+    change_settings { |settings| settings['tweets_to_load'] = tweets_to_load }
   end
 
   def tweets_to_load
-    @preferences['tweets_to_load'] || DEFAULT_TWEETS_TO_LOAD
+    settings['tweets_to_load'] || DEFAULT_TWEETS_TO_LOAD
   end
 
   def already_authenticated?
-    @preferences['oauth_token'] && @preferences['oauth_secret']
+    settings['oauth_token'] && settings['oauth_secret']
   end
 
   def tweets
@@ -68,31 +68,23 @@ module TwitterConnection
   end
 
   def unvalidate_authentication
-    @preferences['oauth_token'], @preferences['oauth_secret'] = nil, nil
-    update_preferences
+    change_settings do |settings|
+      settings['oauth_token'], settings['oauth_secret'] = nil, nil
+    end
   end
 
   # load the preferences and configure the twitter gem to use them
   def load_credentials
-    load_preferences
     Twitter.configure do |config|
-      config.consumer_key = @preferences['consumer_key']
-      config.consumer_secret = @preferences['consumer_secret']
-      config.oauth_token = @preferences['oauth_token']
-      config.oauth_token_secret = @preferences['oauth_secret']
+      config.consumer_key = settings['consumer_key']
+      config.consumer_secret = settings['consumer_secret']
+      config.oauth_token = settings['oauth_token']
+      config.oauth_token_secret = settings['oauth_secret']
     end
   end
 
-  def update_preferences
-    File.open(PREFERENCES_FILE, 'w') do |file|
-      YAML.dump(@preferences, file)
-    end
-  end
-
-  def load_preferences
-    File.open(PREFERENCES_FILE) do |file|
-      @preferences = YAML::load(file)
-    end
+  def settings_path
+    SETTINGS_PATH
   end
 
 end

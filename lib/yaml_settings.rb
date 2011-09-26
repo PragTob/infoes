@@ -8,11 +8,11 @@ module YAMLSettings
 
   def load_settings
     File.open(settings_path) { |file| @settings = YAML::load(file) }
+    @settings
   end
 
   def change_settings
-    load_settings
-    yield @settings
+    yield settings
     save_settings
   end
 
