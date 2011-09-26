@@ -22,7 +22,7 @@ module TwitterConnection
   end
 
   def complete_authentication(pincode)
-    @access_token = @request_token.get_access_token :pin => pincode
+    @access_token = @request_token.get_access_token(:pin => pincode)
 
     @preferences['oauth_token'] = @access_token.token
     @preferences['oauth_secret'] = @access_token.secret

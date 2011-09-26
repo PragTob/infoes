@@ -19,7 +19,7 @@ module RSSFeeds
   end
 
   def remove(url)
-    urls.delete url
+    urls.delete(url)
     change_preferences
   end
 
@@ -40,7 +40,7 @@ module RSSFeeds
 
   # load the preferences file (if it exists), otherwise we don't have urls
   def load_preferences
-    if File.exist? RSS_PREFERENCES
+    if File.exist?(RSS_PREFERENCES)
       File.open(RSS_PREFERENCES) { |file| @urls = YAML::load(file) }
     else
       @urls = []
