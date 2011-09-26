@@ -1,5 +1,6 @@
 require 'rss/2.0'
 require 'open-uri'
+require 'yaml'
 require_relative 'rss_entry'
 
 # Class responsible for managing and loading our RSSFeeds

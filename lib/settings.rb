@@ -1,4 +1,7 @@
+require_relative 'yaml_settings'
+
 module Settings
+  extend YAMLSettings
   extend self
 
   SETTINGS_PATH = "preferences/settings.yml"
@@ -37,28 +40,17 @@ module Settings
   end
 
   def settings
-    @settings || load_settings
+    load_settings
   end
 
   private
 
-  def load_settings
-    File.open(SETTINGS_PATH) { |file| @settings = YAML::load(file) }
-    @settings
-  end
-
-  def save_settings
-    File.open(SETTINGS_PATH, 'w') { |file| YAML.dump(@settings, file) }
-  end
-
-  def change_settings
-    load_settings
-    yield @settings
-    save_settings
-  end
-
   def color_hash_from(color)
     { red: color.red, blue: color.blue, green: color.green }
+  end
+
+  def settings_path
+    SETTINGS_PATH
   end
 
 end
