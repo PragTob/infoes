@@ -1,4 +1,4 @@
-require 'rss/2.0'
+require 'feedzirra'
 require 'open-uri'
 require 'yaml'
 require_relative 'rss_entry'
@@ -59,9 +59,8 @@ module RSSFeeds
   def parse_rss_entries(url)
     content = ""
     begin
-      open(url) { |s| content = s.read }
-
-      RSS::Parser.parse(content, false).items.inject([]) do |entries, rss_entry|
+      Feedzirra::Feed.fetch_and_parse(url).entries.inject([]) do
+        |entries, rss_entry|
         entries << RSSEntry.new(rss_entry)
       end
     rescue

@@ -1,4 +1,3 @@
-require 'rss/2.0'
 require 'launchy'
 require_relative 'date_time_comparable'
 
@@ -11,8 +10,9 @@ class RSSEntry
   # initialize given the feed object
   def initialize(feed_entry)
     @title = feed_entry.title
-    @url = feed_entry.link
-    @date_time = feed_entry.pubDate
+    @url = feed_entry.url
+    # RSS vs. Atom
+    @date_time = feed_entry.published
   end
 
   def display(shoes)

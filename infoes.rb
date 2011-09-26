@@ -5,6 +5,7 @@ Shoes.setup do
   gem 'twitter'
   gem 'oauth'
   gem 'launchy'
+  gem 'feedzirra'
 end
 
 # requires are strange but require_relative throws "Can't infer basepath errors"
