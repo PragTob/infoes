@@ -1,4 +1,4 @@
-require_relative "lib/green_maker"
+require_relative "lib/infoes/green_maker"
 require 'rspec/core/rake_task'
 
 INFOES_FILE_NAME = 'infoes.rb'

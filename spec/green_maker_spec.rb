@@ -1,4 +1,4 @@
-require_relative "../lib/green_maker"
+require_relative "../lib/infoes/green_maker"
 PATH = "spec/test_files/"
 
 describe "GreenMaker" do
