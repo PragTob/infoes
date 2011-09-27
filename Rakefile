@@ -9,7 +9,7 @@ RSpec::Core::RakeTask.new
 task :default => :spec
 task :test => :spec
 
-desc "Creat a greenshoes version of infoes"
+desc "Create a greenshoes version of infoes"
 
 task :green_shoes do
   GreenMaker.make_green INFOES_FILE_NAME, GREENFOES_FILE_NAME

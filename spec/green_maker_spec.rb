@@ -19,7 +19,7 @@ describe "GreenMaker" do
                end"
     end
 
-    GreenMaker.make_green(PATH + "in.rb", PATH + "out.rb")
+    Infoes::GreenMaker.make_green(PATH + "in.rb", PATH + "out.rb")
     new_source = File.read PATH + "out.rb"
     new_source.should_not match /Shoes.setup/
     new_source.should_not match /gem/
