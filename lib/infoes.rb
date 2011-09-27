@@ -1,5 +1,33 @@
 # infoes is a reader that aims to combine multiple services
 
+Shoes.setup do
+  gem 'twitter'
+  gem 'oauth'
+  gem 'launchy'
+  gem 'feedzirra'
+end
+
+require 'twitter'
+require 'feedzirra'
+require 'launchy'
+require 'oauth'
+
+require_relative 'infoes/date_time_comparable'
+require_relative 'infoes/yaml_settings'
+require_relative 'infoes/rss_entry'
+require_relative 'infoes/rss_feeds'
+require_relative 'infoes/tweet'
+require_relative 'infoes/twitter_connection'
+require_relative 'infoes/settings'
+require_relative 'infoes/side_tab'
+
+require_relative 'infoes/tabs/about'
+require_relative 'infoes/tabs/general_settings'
+require_relative 'infoes/tabs/home'
+require_relative 'infoes/tabs/rss_settings'
+require_relative 'infoes/tabs/twitter_settings'
+
+
 MENU_WIDTH = 120
 
 # the main menu displayed on the left hand side
