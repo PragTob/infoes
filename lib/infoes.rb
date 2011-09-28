@@ -35,23 +35,23 @@ MENU_WIDTH = 120
 # find the corresponding classes in the tabs directory
 def menu
   stack width: MENU_WIDTH do
-    para link("Home") { open_tab(:Home) }
-    para link("Twitter Settings") { open_tab(:TwitterSettings) }
-    para link("RSS feed Settings") { open_tab(:RSSSettings) }
-    para link("General Settings") { open_tab(:GeneralSettings) }
-    para link("About") { open_tab(:About) }
+    para link("Home") { open_tab(Infoes::Home) }
+    para link("Twitter Settings") { open_tab(Infoes::TwitterSettings) }
+    para link("RSS feed Settings") { open_tab(Infoes::RSSSettings) }
+    para link("General Settings") { open_tab(Infoes::GeneralSettings) }
+    para link("About") { open_tab(Infoes::About) }
     para link("Close") { close if confirm "Are you sure?" }
   end
 end
 
-def get_tab(symbol)
-  if @loaded_tabs.include?(symbol)
-    return @loaded_tabs[symbol]
+def get_tab(tab_class)
+  if @loaded_tabs.include?(tab_class)
+    return @loaded_tabs[tab_class]
   else
     # load the class responding to the symbol(the desired tab)
     # the class could also be required just here, what do you think?
     # (gently stolen/adapted from the hacketyhack code)
-    @loaded_tabs[symbol] = Infoes.const_get(symbol).new(@main_content)
+    @loaded_tabs[tab_class] = tab_class.new(@main_content)
   end
 end
 
@@ -73,6 +73,6 @@ Shoes.app title: "infoes", width: Infoes::Settings.width,
   end
 
   # we start at home!
-  open_tab(:Home)
+  open_tab(Infoes::Home)
 end
 
