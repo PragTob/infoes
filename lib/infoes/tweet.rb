@@ -29,8 +29,6 @@ module Infoes
           shoes.image(image_url)
         end
         shoes.stack width: -TWEET_PIC_WIDTH do
-          # green shoes compatibility, maybe let green_maker insert this...
-          text.gsub!('&', '&amp;')
           shoes.para publisher_name, ": ", text, " ", date_time, " ",
             shoes.link("Go to Tweet") { Launchy.open(url) }
         end

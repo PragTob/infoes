@@ -5,7 +5,6 @@ module Infoes
     def initialize(slot)
       @slot = slot
       @slot.append do
-        # green shoes incompatible @content = stack hidden: true do content end
         @content = stack do content end
       end
     end
