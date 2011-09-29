@@ -1,8 +1,8 @@
 --- 
 :color: 
-  :red: 0
-  :blue: 0
-  :green: 255
+  :red: 26
+  :blue: 232
+  :green: 234
 :interval: 300
 :dimensions: 
   :width: 700
