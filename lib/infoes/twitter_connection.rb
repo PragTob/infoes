@@ -54,10 +54,13 @@ module Infoes
     def load_tweets(number)
       begin
         Twitter.home_timeline[0...number].map { |tweet| Tweet.new(tweet) }
-      rescue
-        error "Authentication with Twitter failed."
+      rescue Exception => error
+        puts "Authentication with Twitter failed."
+        puts "Error: #{error}"
+        puts error.backtrace.inspect
+        
         # our user may try and reauthenticate with Twitter
-        unvalidate_authentication
+        #unvalidate_authentication
         []
       end
     end

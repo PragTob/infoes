@@ -33,7 +33,7 @@ module Infoes
     def tweets_to_load_option
       flow do
         para "Number of tweets to load:"
-        to_load_edit = edit_line TwitterConnection.tweets_to_load
+        to_load_edit = edit_line TwitterConnection.tweets_to_load.to_s
         button "Change" do
           TwitterConnection.tweets_to_load = to_load_edit.text
           alert "You successfully changed the number of tweets to load!"

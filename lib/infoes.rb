@@ -1,11 +1,4 @@
-# infoes is a reader that aims to combine multiple services
-
-Shoes.setup do
-  gem 'twitter'
-  gem 'oauth'
-  gem 'launchy'
-  gem 'feedzirra'
-end
+require 'green_shoes'
 
 require 'twitter'
 require 'feedzirra'
@@ -64,7 +57,8 @@ end
 # main infoes app
 Shoes.app title: "infoes", width: Infoes::Settings.width,
           height: Infoes::Settings.height do
-  background Infoes::Settings.color
+  color = Infoes::Settings.color
+  background rgb(color[:red], color[:green], color[:blue]) 
   @loaded_tabs = {}
   title "This is infoes!", :align => "center"
   flow do

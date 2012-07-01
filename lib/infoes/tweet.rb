@@ -11,14 +11,14 @@ module Infoes
     # initialize using a tweet object from the Twitter gem
     def initialize(tweet)
       @publisher_name = tweet.user.name
-      @publisher_display_name = tweet.user.display_name
+      @publisher_display_name = tweet.user.screen_name
       @text = tweet.text
       @image_url = tweet.user.profile_image_url
       @url =  TwitterConnection::TWITTER_URL +
               tweet.user.screen_name +
               "/status/" +
-              tweet.id_str
-      @date_time = Time.parse(tweet.created_at)
+              tweet.id.to_s
+      @date_time = tweet.created_at.to_s
     end
 
     # we need the shoes object in order to display our tweets

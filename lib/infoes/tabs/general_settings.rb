@@ -25,7 +25,7 @@ module Infoes
     def change_reload_interval
       flow do
         para "Reload interval in minutes:"
-        @interval_edit = edit_line(Settings.reload_interval / 60,
+        @interval_edit = edit_line((Settings.reload_interval / 60).to_s,
           width: SMALL_EDIT_LINE_WIDTH)
         button "Change" do
           Settings.reload_interval = @interval_edit.text
@@ -38,9 +38,9 @@ module Infoes
       para "Window dimensions"
       flow do
         para "Width: "
-        @width_edit = edit_line(Settings.width, width: SMALL_EDIT_LINE_WIDTH)
+        @width_edit = edit_line(Settings.width.to_s, width: SMALL_EDIT_LINE_WIDTH)
         para "Height: "
-        @height_edit = edit_line(Settings.height, width: SMALL_EDIT_LINE_WIDTH)
+        @height_edit = edit_line(Settings.height.to_s, width: SMALL_EDIT_LINE_WIDTH)
         button "Change" do
           Settings.new_dimensions(@width_edit.text, @height_edit.text)
           alert "Windows dimensions succesfully changed! " +
