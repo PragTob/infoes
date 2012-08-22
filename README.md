@@ -1,4 +1,4 @@
-# Infoes
+# Infoes [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/PragTob/infoes)
 Infoes is a GUI client application that aims to get events into one timeline. So you see new RSS feeds alongside new Tweets. The name is intended to be little mixture of Information and Shoes (the GUI toolkit which this is build with) - so it's called Infoes!
 
 # Attention! Under development
