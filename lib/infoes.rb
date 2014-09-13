@@ -1,12 +1,5 @@
 # infoes is a reader that aims to combine multiple services
 
-Shoes.setup do
-  gem 'twitter'
-  gem 'oauth'
-  gem 'launchy'
-  gem 'feedzirra'
-end
-
 require 'twitter'
 require 'feedzirra'
 require 'launchy'
