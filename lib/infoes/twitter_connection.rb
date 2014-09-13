@@ -52,14 +52,12 @@ module Infoes
     private
 
     def load_tweets(number)
-      begin
-        Twitter.home_timeline[0...number].map { |tweet| Tweet.new(tweet) }
-      rescue
-        error "Authentication with Twitter failed."
-        # our user may try and reauthenticate with Twitter
-        unvalidate_authentication
-        []
-      end
+      @client.home_timeline[0...number].map { |tweet| Tweet.new(tweet) }
+    rescue
+      error "Authentication with Twitter failed."
+      # our user may try and reauthenticate with Twitter
+      unvalidate_authentication
+      []
     end
 
     def unvalidate_authentication
@@ -69,12 +67,18 @@ module Infoes
     end
 
     def load_credentials
-      Twitter.configure do |config|
-        config.consumer_key = settings['consumer_key']
-        config.consumer_secret = settings['consumer_secret']
-        config.oauth_token = settings['oauth_token']
-        config.oauth_token_secret = settings['oauth_secret']
+      @client =
+      Twitter::REST::Client.new do |config|
+        config.consumer_key        = settings['consumer_key']
+        config.consumer_secret     = settings['consumer_secret']
+        config.access_token        = settings['oauth_token']
+        config.access_token_secret = settings['oauth_secret']
       end
+    rescue
+      error "Authentication with Twitter failed."
+      # our user may try and reauthenticate with Twitter
+      unvalidate_authentication
+      []
     end
 
     def settings_path

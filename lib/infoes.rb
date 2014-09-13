@@ -1,9 +1,9 @@
 # infoes is a reader that aims to combine multiple services
 
 require 'twitter'
-require 'feedzirra'
 require 'launchy'
 require 'oauth'
+require 'yaml'
 
 require './lib/infoes/date_time_comparable'
 require './lib/infoes/yaml_settings'
