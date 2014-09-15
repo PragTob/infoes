@@ -1,3 +1,5 @@
+require 'yaml'
+
 module Infoes
   module YAMLSettings
 
@@ -12,6 +14,7 @@ module Infoes
 
     def change_settings
       yield settings
+      settings.delete_if{ |k, v| v.nil? }
       save_settings
     end
 
@@ -21,4 +24,3 @@ module Infoes
 
   end
 end
-

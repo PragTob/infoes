@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'twitter'
-gem 'oauth', '<0.4.0'
 gem 'launchy'
+gem 'simple_oauth'
+gem 'faraday'
+gem 'faraday_middleware'
