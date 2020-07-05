@@ -12,7 +12,7 @@ module Infoes
 
     def color
       color = settings[:color]
-      Shoes.rgb(color[:red], color[:green], color[:blue])
+      Shoes::Color.new(color[:red], color[:green], color[:blue])
     end
 
     def reload_interval

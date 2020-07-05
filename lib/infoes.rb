@@ -1,31 +1,21 @@
 # infoes is a reader that aims to combine multiple services
 
-Shoes.setup do
-  gem 'twitter'
-  gem 'oauth'
-  gem 'launchy'
-  gem 'feedzirra'
-end
-
-require 'twitter'
-require 'feedzirra'
 require 'launchy'
-require 'oauth'
 
-require './lib/infoes/date_time_comparable'
-require './lib/infoes/yaml_settings'
-require './lib/infoes/rss_entry'
-require './lib/infoes/rss_feeds'
-require './lib/infoes/tweet'
-require './lib/infoes/twitter_connection'
-require './lib/infoes/settings'
-require './lib/infoes/side_tab'
+require 'infoes/date_time_comparable'
+require 'infoes/yaml_settings'
+require 'infoes/rss_entry'
+require 'infoes/rss_feeds'
+require 'infoes/tweet'
+require 'infoes/twitter_connection'
+require 'infoes/settings'
+require 'infoes/side_tab'
 
-require './lib/infoes/tabs/about'
-require './lib/infoes/tabs/general_settings'
-require './lib/infoes/tabs/home'
-require './lib/infoes/tabs/rss_settings'
-require './lib/infoes/tabs/twitter_settings'
+require 'infoes/tabs/about'
+require 'infoes/tabs/general_settings'
+require 'infoes/tabs/home'
+require 'infoes/tabs/rss_settings'
+require 'infoes/tabs/twitter_settings'
 
 
 MENU_WIDTH = 120
@@ -62,8 +52,11 @@ def open_tab(symbol)
 end
 
 # main infoes app
-Shoes.app title: "infoes", width: Infoes::Settings.width,
-          height: Infoes::Settings.height do
+Shoes.app(
+  title: "infoes",
+  width: Infoes::Settings.width,
+  height: Infoes::Settings.height
+) do
   background Infoes::Settings.color
   @loaded_tabs = {}
   title "This is infoes!", :align => "center"
@@ -75,4 +68,3 @@ Shoes.app title: "infoes", width: Infoes::Settings.width,
   # we start at home!
   open_tab(Infoes::Home)
 end
-

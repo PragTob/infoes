@@ -18,7 +18,7 @@ module Infoes
 
     def connect_to_twitter_button
       button "Connect infoes with twitter" do
-        authorization_url = TwitterConnection.get_request_token
+        authorization_url = TwitterConnection.get_authorize_url
         Launchy.open(authorization_url)
         pincode = ask "A page should have been opened in your web browser. " +
                       "Please authorize this app and then enter the " +
